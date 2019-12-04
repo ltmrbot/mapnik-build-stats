@@ -1,0 +1,68 @@
+language: generic
+os: linux
+dist: bionic
+
+addons:
+  apt:
+    sources:
+    packages:
+      - clang-6.0
+      - xutils-dev
+
+env:
+  global:
+    - CC="clang-6.0"
+    - CXX="clang++-6.0"
+
+stages:
+  - name: Test
+  - name: Collect stats
+    if: type in (api, cron)
+
+jobs:
+  include:
+    - stage: Test
+      name: Check script
+      script:
+        - python3 "scripts/src/run.py" --help
+      after_success:
+        - true
+    - stage: Collect stats
+      name: Round 1
+
+cache:
+  directories:
+    - /tmp/build-stats-cache
+
+install:
+  - REPO_URL=$(git remote get-url origin)
+  - git clone --depth=5 --branch='data' "$REPO_URL" ./data
+
+script:
+  - >
+    python3 "scripts/src/run.py"
+        --use-mason
+        --deadline "$(date +%s -d '50 minutes')"
+        --max-samples 15
+        --since "2015-07-04"
+        --source-repository "https://github.com/mapnik/mapnik.git"
+        -- master v3.0.x
+
+before_cache:
+  # Keep only up to five most recent cache files.
+  # Fewer files will be kept if the data branch clone is not deep enough.
+  - |
+    if git -C ./data log -5 --oneline
+    then
+        ls -1 /tmp/build-stats-cache/data_at_*.yml |
+            grep -vFf <( git -C ./data log -5 "--format=data_at_%H.yml" ) |
+            xargs -d '\n' rm -vf --
+    fi
+
+after_success:
+  - |
+    if test -n "$DATA_PUSH_PWD"
+    then
+        PUSH_URL="https://${TRAVIS_REPO_SLUG%%/*}@github.com/${TRAVIS_REPO_SLUG}.git"
+        git -C ./data push "$PUSH_URL" <<< "$DATA_PUSH_PWD"
+    fi
