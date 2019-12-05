@@ -48,8 +48,7 @@ install:
   - chmod 0600 ./github.key
 
 script:
-  - >
-    python3 "scripts/src/run.py"
+  - python3 "scripts/src/run.py"
         --use-mason
         --deadline "$(date +%s -d '50 minutes')"
         --max-samples 15
