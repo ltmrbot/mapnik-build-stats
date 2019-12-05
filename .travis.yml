@@ -8,6 +8,7 @@ addons:
     packages:
       - clang-6.0
       - xutils-dev
+      - sshpass
 
 env:
   global:
@@ -25,6 +26,11 @@ jobs:
       name: Check script
       script:
         - python3 "scripts/src/run.py" --help
+        - |
+          if test -n "$SSHPASS"
+          then
+              git -C ./data ls-remote --heads "git@github.com:${TRAVIS_REPO_SLUG}.git"
+          fi
       after_success:
         - true
     - stage: Collect stats
@@ -37,6 +43,9 @@ cache:
 install:
   - REPO_URL=$(git remote get-url origin)
   - git clone --depth=5 --branch='data' "$REPO_URL" ./data
+  - git -C ./data config core.sshCommand
+        'sshpass -ev -Passphrase ssh -i "$TRAVIS_BUILD_DIR/github.key" -F /dev/null'
+  - chmod 0600 ./github.key
 
 script:
   - >
@@ -61,8 +70,7 @@ before_cache:
 
 after_success:
   - |
-    if test -n "$DATA_PUSH_PWD"
+    if test -n "$SSHPASS"
     then
-        PUSH_URL="https://${TRAVIS_REPO_SLUG%%/*}@github.com/${TRAVIS_REPO_SLUG}.git"
-        git -C ./data push "$PUSH_URL" <<< "$DATA_PUSH_PWD"
+        git -C ./data push -v "git@github.com:${TRAVIS_REPO_SLUG}.git"
     fi
