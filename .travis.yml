@@ -50,7 +50,7 @@ install:
 script:
   - python3 "scripts/src/run.py"
         --use-mason
-        --deadline "$(date +%s -d '50 minutes')"
+        --deadline "$(date +%s -d '30 minutes')"
         --max-samples 15
         --since "2015-07-04"
         --source-repository "https://github.com/mapnik/mapnik.git"
