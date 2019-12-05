@@ -67,8 +67,14 @@ class MapnikGitRepo(GitRepo):
                           '--exclude=mason_packages/.cache')
 
     def bootstrap(self):
+        stderr = None
+        nok = getattr(self, 'bootstrap_ok', 0)
+        if nok >= 5:
+            from subprocess import DEVNULL as stderr
+            print(F'bootstrap.sh output squelched after {nok} successful runs')
         check_exit(popen('bash', 'bootstrap.sh',
-                         highlight=[0,1], cwd=self.dir))
+                         highlight=[0,1], cwd=self.dir, stderr=stderr))
+        self.bootstrap_ok = nok + 1
 
     def configure(self):
         if ARGS.use_mason:
