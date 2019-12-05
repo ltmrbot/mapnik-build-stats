@@ -40,6 +40,9 @@ cache:
   directories:
     - /tmp/build-stats-cache
 
+before_install:
+  - git config --global advice.detachedHead false
+
 install:
   - REPO_URL=$(git remote get-url origin)
   - git clone --depth=5 --branch='data' "$REPO_URL" ./data
