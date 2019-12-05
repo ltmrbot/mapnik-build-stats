@@ -211,6 +211,13 @@ class GitRepo(object):
         yield from proc.stdout
         check_exit(proc)
 
+    def tip_sha1(self, *args, **kwds):
+        proc = popen2('git', '-C', self.dir,
+                      'rev-parse', '--verify', '--default', 'HEAD',
+                      *args, highlight=[0,3], **kwds)
+        out, err = proc.communicate()
+        return out.rstrip('\n')
+
     def commits_since(self, since, heads):
         return list(self.iter_commits_since(since, heads))
 

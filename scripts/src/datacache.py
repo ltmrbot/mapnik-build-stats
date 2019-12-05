@@ -27,8 +27,7 @@ class DataCache(object):
             self._persistent = {}
 
     def _cache_file_path(self):
-        revs = self.data_repo.git_rev_list('-1', 'HEAD', '--')
-        sha1 = max(line.strip() for line in revs)
+        sha1 = self.data_repo.tip_sha1()
         return os.path.join(self.cache_root, F'data_at_{sha1}.yml')
 
     def _persist_dict(self, *keys):

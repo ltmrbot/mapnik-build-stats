@@ -82,6 +82,9 @@ CXX={shlex.quote(os.environ.get("CXX", "c++"))}
 '''
         proc = popen('bash', '-c', configure_script, 'configure.bash',
                      highlight=[0,2], cwd=self.dir)
+        with open(os.path.join(self.dir, 'config.ok_for_commit'), 'w') as fw:
+            if proc.wait() == 0:
+                self.git('rev-parse', 'HEAD', stdout=fw)
         return proc.wait()
 
     def scons(self, *args, **kwds):
@@ -171,11 +174,18 @@ def process_commit(c, repo, dcache):
         tuples.append((t_last, src_path, arg_hash, cpp_hash))
     if not tuples:
         return
-    repo.clean()
-    repo.checkout(c)
-    exit_code = repo.configure()
-    if exit_code:
-        return
+    try:
+        with open(os.path.join(repo.dir, 'config.ok_for_commit'), 'r') as fr:
+            ok_sha1 = fr.read().strip()
+        configured = (ok_sha1 == c.sha1 == repo.tip_sha1())
+    except:
+        configured = False
+    if not configured:
+        repo.clean()
+        repo.checkout(c)
+        exit_code = repo.configure()
+        if exit_code:
+            return
     num_done = 0
     tuples.sort()
     for t_last, src_path, arg_hash, cpp_hash in tuples:
