@@ -1,0 +1,9 @@
+commit_date: 1567331844
+commit_subject: 'scons: minor cleanup'
+configure_ok: true
+last_refresh: 1575567676
+targets:
+- deps/
+- plugins/
+- src/
+- utils/
