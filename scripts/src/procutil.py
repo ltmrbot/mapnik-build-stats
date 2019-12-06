@@ -34,13 +34,13 @@ def flatten(*args):
 
 def popen(*args, highlight=[0], **kwds):
     args = tuple(flatten(*args))
-    _print_command(args, highlight, 36)
+    _print_command(args, highlight, 94)
     return Popen(args, stdin=DEVNULL, **kwds)
 
 
 def popen2(*args, highlight=[0], **kwds):
     args = tuple(flatten(*args))
-    _print_command(args, highlight, 34)
+    _print_command(args, highlight, 96)
     kwds.setdefault('universal_newlines', True)
     return Popen(args, stdin=DEVNULL, stdout=PIPE, **kwds)
 
