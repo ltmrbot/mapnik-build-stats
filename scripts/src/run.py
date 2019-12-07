@@ -242,7 +242,8 @@ async def _main():
 
     start = time()
     repo = MapnikGitRepo(ARGS.source_repository, os.path.join(tmp, 'mapnik'))
-    commits = repo.commits_since(ARGS.since, ARGS.branches)
+    repo.fetch_branches(ARGS.since, *ARGS.branches)
+    commits = repo.commits_since(ARGS.since, *ARGS.branches)
 
     print(F'\nFound {len(commits)} commits')
     if not commits:

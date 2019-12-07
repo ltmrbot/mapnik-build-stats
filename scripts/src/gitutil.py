@@ -141,25 +141,12 @@ class GitRepo(object):
         if src_url is None:
             return
         proc = popen('git', 'clone', '--no-checkout',
+                                     '--no-local',
                                      '--single-branch',
-                                     '--shared',
-                                     '--depth=500',
+                                     '--depth=200',
                                      clone_args, '--', src_url, dst_dir,
                      highlight=[0,1])
         proc.wait()
-
-    def _fetch_branch(self, branch, since):
-        bremote = F'origin/{branch}'
-        self.git('config', '--add', 'remote.origin.fetch',
-                 F'+refs/heads/{branch}:refs/remotes/{bremote}')
-        while not self._first_commit_before(since, branch):
-            self.git('fetch', '--deepen=500', 'origin', branch)
-        return bremote
-
-    def _first_commit_before(self, since, branch):
-        revs = self.git_rev_list('-1', '--first-parent',
-                                 '--until', since, branch, '--')
-        return max((line.strip() for line in revs), default='')
 
     def checkout(self, commit):
         self.git('checkout', '--force', commit.sha1, '--')
@@ -195,16 +182,21 @@ class GitRepo(object):
         out, err = proc.communicate()
         return out.rstrip('\r\n')
 
-    def commits_since(self, since, heads):
-        return list(self.iter_commits_since(since, heads))
+    def fetch_branches(self, since, *heads):
+        refs = tuple(F'refs/heads/{branch}:refs/remotes/origin/{branch}'
+                     for branch in heads)
+        self.git('fetch', '--shallow-since', since, 'origin', *refs)
 
-    def iter_commits_since(self, since, heads):
-        rheads = tuple(self._fetch_branch(b, since) for b in heads)
+    def commits_since(self, since, *heads):
+        return list(self.iter_commits_since(since, *heads))
+
+    def iter_commits_since(self, since, *heads):
+        refs = tuple(F'origin/{branch}' for branch in heads)
         log1 = self.git_log('--first-parent', '--format=%H', '-F', '-i',
                             '--grep=[skip ci]', '--grep=[skip travis]',
-                            '--since', since, rheads, '--')
+                            '--since', since, refs, '--')
         log2 = self.git_log('--first-parent', '--format=%H %ct %s',
-                            '--since', since, rheads, '--')
+                            '--since', since, refs, '--')
         # read log1 output while log2 is running in parallel
         skipped = set(line.strip() for line in log1)
         for line in log2:
