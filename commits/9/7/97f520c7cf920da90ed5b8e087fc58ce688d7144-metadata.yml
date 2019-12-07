@@ -1,0 +1,9 @@
+commit_date: 1510650626
+commit_subject: cleanup
+configure_ok: true
+last_refresh: 1575745734
+targets:
+- deps/
+- plugins/
+- src/
+- utils/
