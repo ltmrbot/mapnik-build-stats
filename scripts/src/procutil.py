@@ -1,18 +1,19 @@
-from shlex import quote
+import shlex
+import sys
 from subprocess import DEVNULL, PIPE, Popen
 from time import gmtime, strftime
 
 verbose = False
 
 
-def _print_command(args, highlight, hicolor):
-    if verbose:
-        quoted = list(map(quote, args))
+def _log_command(args, highlight, hicolor):
+    if verbose or args[0] == 'git':
+        quoted = list(map(shlex.quote, args))
         for i in highlight:
             quoted[i] = F'\033[{hicolor}m{quoted[i]}\033[m'
-        print('\n' + ' '.join(quoted), flush=True)
+        print('\n' + ' '.join(quoted), file=sys.stderr, flush=True)
     else:
-        print('.', end='', flush=True)
+        print('.', end='', file=sys.stderr, flush=True)
 
 
 def check_exit(proc):
@@ -34,13 +35,13 @@ def flatten(*args):
 
 def popen(*args, highlight=[0], **kwds):
     args = tuple(flatten(*args))
-    _print_command(args, highlight, 94)
+    _log_command(args, highlight, 94)
     return Popen(args, stdin=DEVNULL, **kwds)
 
 
 def popen2(*args, highlight=[0], **kwds):
     args = tuple(flatten(*args))
-    _print_command(args, highlight, 96)
+    _log_command(args, highlight, 96)
     kwds.setdefault('universal_newlines', True)
     return Popen(args, stdin=DEVNULL, stdout=PIPE, **kwds)
 
@@ -69,7 +70,7 @@ async def async_popen(program, *args, highlight=[0],
         hicolor = 96
 
     argv = tuple(flatten(program, *args))
-    _print_command(argv, highlight, hicolor)
+    _log_command(argv, highlight, hicolor)
 
     if stdout is None:
         if stdout_filter is not None:
