@@ -49,6 +49,7 @@ class ArgumentNamespace(argparse.Namespace):
 class MapnikGitRepo(GitRepo):
 
     def checkout(self, commit):
+        self.git('submodule', 'deinit', '--force', '--all')
         self.git('checkout', '--force', commit.sha1, '--')
         if commit.cdate < 1511519354: # 2017-11-24 11:29:14 +0100
             self.python = 'python2'
