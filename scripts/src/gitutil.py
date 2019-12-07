@@ -140,8 +140,10 @@ class GitRepo(object):
         self.dir = dst_dir
         if src_url is None:
             return
-        proc = popen('git', 'clone', '--no-local', '--no-checkout',
-                                     '--single-branch', '--depth=100',
+        proc = popen('git', 'clone', '--no-checkout',
+                                     '--single-branch',
+                                     '--shared',
+                                     '--depth=500',
                                      clone_args, '--', src_url, dst_dir,
                      highlight=[0,1])
         proc.wait()
@@ -150,13 +152,14 @@ class GitRepo(object):
         bremote = F'origin/{branch}'
         self.git('config', '--add', 'remote.origin.fetch',
                  F'+refs/heads/{branch}:refs/remotes/{bremote}')
-        older = ''
-        while older == '':
-            self.git('fetch', '--deepen', 100, 'origin', branch)
-            revs = self.git_rev_list('-1', '--first-parent',
-                                     '--until', since, bremote, '--')
-            older = max((line.strip() for line in revs), default='')
+        while not self._first_commit_before(since, branch):
+            self.git('fetch', '--deepen=500', 'origin', branch)
         return bremote
+
+    def _first_commit_before(self, since, branch):
+        revs = self.git_rev_list('-1', '--first-parent',
+                                 '--until', since, branch, '--')
+        return max((line.strip() for line in revs), default='')
 
     def checkout(self, commit):
         self.git('checkout', '--force', commit.sha1, '--')
