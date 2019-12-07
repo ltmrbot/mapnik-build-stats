@@ -73,13 +73,17 @@ class MapnikGitRepo(GitRepo):
         if nok >= 5:
             from subprocess import DEVNULL as stderr
             print(F'bootstrap.sh output squelched after {nok} successful runs')
-        check_exit(popen('bash', 'bootstrap.sh',
-                         highlight=[0,1], cwd=self.dir, stderr=stderr))
-        self.bootstrap_ok = nok + 1
+        proc = popen('bash', 'bootstrap.sh',
+                     highlight=[0,1], cwd=self.dir, stderr=stderr)
+        if proc.wait() == 0:
+            self.bootstrap_ok = nok + 1
+        return proc.returncode
 
     def configure(self):
         if ARGS.use_mason:
-            self.bootstrap()
+            returncode = self.bootstrap()
+            if returncode != 0:
+                return returncode
         configure_script = F'''
 source ./mapnik-settings.env || true
 {shlex.quote(self.python)} scons/scons.py --implicit-deps-changed \\
