@@ -276,6 +276,7 @@ async def _main():
            F' branches={",".join(ARGS.branches)}')
     try:
         msg = (F'travis {os.environ["TRAVIS_JOB_NUMBER"]} {msg}\n\n'
+               F'{os.environ["TRAVIS_JOB_WEB_URL"]}\n'
                F'{os.environ["TRAVIS_BUILD_WEB_URL"]}')
     except KeyError:
         msg = F'run {strdatetime(start)} {msg}'
