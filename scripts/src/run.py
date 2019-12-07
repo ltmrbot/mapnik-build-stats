@@ -194,7 +194,9 @@ async def process_commit(c, repo, dcache):
         configured = (ok_sha1 == c.sha1 == repo.tip_sha1())
     except:
         configured = False
-    if not configured:
+    if configured:
+        print(F'already configured, {c}')
+    else:
         repo.clean()
         repo.checkout(c)
         exit_code = repo.configure()
@@ -219,7 +221,7 @@ async def process_commit(c, repo, dcache):
             # ignore ARGS.verbose:
             # - in non-verbose mode, we need to split long lines of dots
             # - in verbose mode, an extra line won't hurt
-            print(F'\ncompiled {num_done}/{len(tuples)} sources from {c}')
+            print(F'\ncompiled {num_done}/{len(tuples)} sources, {c}')
 
 
 def vprint(*args, **kwds):
