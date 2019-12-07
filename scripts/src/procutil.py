@@ -49,4 +49,53 @@ def strdatetime(ts):
     return strftime("%Y-%m-%d %H:%M:%S", gmtime(ts))
 
 
+async def async_popen(program, *args, highlight=[0],
+                      stdin=None, stdout=None, stderr=None,
+                      stdout_filter=None,
+                      loop=None, **kwds):
+    """
+    """
+    import asyncio
+    from asyncio.subprocess import Process
+
+    if loop is None:
+        loop = asyncio.get_event_loop()
+
+    if stdout is None:
+        hicolor = 94
+    elif stdout == DEVNULL:
+        hicolor = 34
+    else:
+        hicolor = 96
+
+    argv = tuple(flatten(program, *args))
+    _print_command(argv, highlight, hicolor)
+
+    if stdout is None:
+        if stdout_filter is not None:
+            stdout = PIPE
+    else:
+        if stdout_filter is not None:
+            raise ValueError("stdout and stdout_filter may not both be used")
+        if stdout == PIPE:
+            stdout_filter = asyncio.StreamReader(loop=loop)
+
+    if stderr == PIPE:
+        stderr_filter = asyncio.StreamReader(loop=loop)
+    else:
+        stderr_filter = None
+
+    def protocol_factory():
+        from asyncutil import SubprocessFilterProtocol
+        return SubprocessFilterProtocol(stdout=stdout_filter,
+                                        stderr=stderr_filter,
+                                        loop=loop)
+
+    transport, protocol = await loop.subprocess_exec(protocol_factory, *argv,
+                                                     stdin=stdin, stdout=stdout,
+                                                     stderr=stderr, **kwds)
+    return Process(transport, protocol, loop)
+#enddef
+
+
 #endfile
