@@ -236,7 +236,7 @@ def _main():
 
     print(F'\nFound {len(commits)} commits')
     if not commits:
-        return 0
+        raise SystemExit(0)
 
     data_repo = GitRepo(None, ARGS.data_dir)
     dcache = DataCache(cachedir,
@@ -287,15 +287,6 @@ def parse_args(args=None):
     ap.add_argument('--source-repository', metavar='URL', required=True)
     ap.add_argument('branches', metavar='BRANCH', default=['master'], nargs='*')
     return ap.parse_args(args, ArgumentNamespace())
-
-
-def main(args=None):
-    try:
-        global ARGS
-        ARGS = parse_args(args)
-        _main()
-    except SystemExit as ex:
-        return ex.code
 
 
 if __name__ == "__main__":

@@ -216,7 +216,7 @@ class GitRepo(object):
                       'rev-parse', '--verify', '--default', 'HEAD',
                       *args, highlight=[0,3], **kwds)
         out, err = proc.communicate()
-        return out.rstrip('\n')
+        return out.rstrip('\r\n')
 
     def commits_since(self, since, heads):
         return list(self.iter_commits_since(since, heads))
