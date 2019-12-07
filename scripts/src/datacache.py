@@ -9,6 +9,7 @@ def days_ago(days, now=time()):
 
 
 REFRESH_THRESHOLD = days_ago(randint(14, 28))
+REFRESH_THRESHOLD = max(1575734000, REFRESH_THRESHOLD)
 
 
 class DataCache(object):
@@ -103,7 +104,7 @@ class DataCache(object):
         self._persist_dict('commits', commit.sha1)['metadata'] = res
         return res
 
-    def require_commit_sources(self, commit, code_repo):
+    async def require_commit_sources(self, commit, code_repo):
         res = commit.sources()
         if res is None:
             last_refresh = self.last_commit_refresh(commit)
@@ -115,9 +116,8 @@ class DataCache(object):
                     # FIXME verbose
                     print('failed to load sources for', commit)
         if res is None:
-            commit.update_sources(code_repo, self.targets)
+            res = await commit.update_sources(code_repo, self.targets)
             self._update_commit_metadata(commit)
-            res = commit.sources()
         return res
 
     def require_compile_timestamps(self, src_path, arg_hash, cpp_hash):

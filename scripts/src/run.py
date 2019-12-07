@@ -1,6 +1,7 @@
 #! /usr/bin/env python3
 
 import argparse
+import asyncio
 import os
 import procutil
 import random
@@ -10,7 +11,7 @@ import tempfile
 from time import time
 from datacache import DataCache
 from gitutil import GitRepo
-from procutil import check_exit, popen, popen2, strdatetime
+from procutil import check_exit, popen, strdatetime
 
 
 class DeadlineReached(BaseException):
@@ -93,17 +94,20 @@ CXX={shlex.quote(os.environ.get("CXX", "c++"))}
                 self.git('rev-parse', 'HEAD', stdout=fw)
         return proc.wait()
 
-    def scons(self, *args, **kwds):
-        return popen(self.python, 'scons/scons.py', *args,
-                     highlight=[0,1], cwd=self.dir, **kwds)
+    async def scons(self, *args, **kwds):
+        from procutil import async_popen
+        return await async_popen(self.python, 'scons/scons.py', *args,
+                                 highlight=[0,1], cwd=self.dir, **kwds)
 
-    def get_build_commands(self, *targets):
+    async def get_build_commands(self, *targets):
+        from subprocess import DEVNULL, PIPE
         print('Generating build commands...', *targets)
-        proc = popen2(self.python, 'scons/scons.py',
-                      '--dry-run', '--no-cache', *targets,
-                      cwd=self.dir)
-        yield from proc.stdout
-        check_exit(proc)
+        proc = await self.scons('--dry-run', '--no-cache', *targets,
+                                stdin=DEVNULL, stdout=PIPE)
+        async for bline in proc.stdout:
+            yield bline.decode()
+        if await proc.wait() != 0:
+            raise SystemExit(proc.returncode)
 
     def setup_local_submodules(self):
         import re
@@ -127,9 +131,9 @@ def next_compile_threshold(base_delay_hours, compile_timestamps):
 #enddef
 
 
-def consider_commit(c, repo, dcache):
+async def consider_commit(c, repo, dcache):
     try:
-        sources = dcache.require_commit_sources(c, repo)
+        sources = await dcache.require_commit_sources(c, repo)
     finally:
         dcache.save_commit_data(c)
 
@@ -167,7 +171,7 @@ def consider_commit(c, repo, dcache):
     return True
 
 
-def process_commit(c, repo, dcache):
+async def process_commit(c, repo, dcache):
     now = time()
     tuples = []
     for src_path, (cpp_hash, arg_hash, ts) in c.comp_keys.items():
@@ -197,9 +201,8 @@ def process_commit(c, repo, dcache):
     for t_last, src_path, arg_hash, cpp_hash in tuples:
         ARGS.check_deadline()
         args = shlex.split(c.sources()[src_path]['compiler_args'])
-        args[args.index('${SOURCE}')] = src_path
-        args[args.index('${TARGET}')] = src_path + '.o'
-        cr = repo.timed_command(*args)
+        args += ['-o', src_path + '.o', src_path]
+        cr = await repo.timed_command(*args)
         sdata = dcache.require_source_data(src_path, arg_hash)
         crs = sdata.setdefault(cpp_hash, [])
         crs.append(cr)
@@ -220,7 +223,7 @@ def vprint(*args, **kwds):
         print(*args, **kwds)
 
 
-def _main():
+async def _main():
     procutil.verbose = ARGS.verbose
 
     tmp = os.path.join(tempfile.gettempdir(), 'build-stats')
@@ -256,8 +259,8 @@ def _main():
             #          CDF_Y(n / 8) ~ 50%
             c = commits.pop(i)
             print(F' {n_commits - len(commits)}/{n_commits} checking {c}')
-            if consider_commit(c, repo, dcache):
-                process_commit(c, repo, dcache)
+            if await consider_commit(c, repo, dcache):
+                await process_commit(c, repo, dcache)
     except DeadlineReached as ex:
         print(F'\nreached deadline {strdatetime(ex.deadline)}')
 
@@ -291,4 +294,8 @@ def parse_args(args=None):
 
 if __name__ == "__main__":
     ARGS = parse_args()
-    _main()
+    loop = asyncio.get_event_loop()
+    try:
+        loop.run_until_complete(_main())
+    finally:
+        loop.close()

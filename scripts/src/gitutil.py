@@ -1,25 +1,24 @@
 import os
 import re
 import shlex
-import subprocess
 import yaml
+from asyncutil import async_batch
 from hashlib import sha1 as COMPILER_INPUT_HASHER
 from procutil import check_exit, popen, popen2, strdatetime
+from subprocess import DEVNULL, PIPE
 from sys import intern
 from time import time
 
 
-def command_output_hash(*args, **kwds):
-    proc = popen(*args, stdout=subprocess.PIPE, **kwds)
-    hasher = COMPILER_INPUT_HASHER()
-    chunk = bytearray(8192)
-    while True:
-        n = proc.stdout.readinto(chunk)
-        if n < len(chunk):
-            hasher.update(memoryview(chunk)[:n])
-            break
-        hasher.update(chunk)
-    return None if proc.wait() else intern(hasher.hexdigest())
+async def command_output_hash(*args, **kwds):
+    from asyncutil import StreamHasher
+    from procutil import async_popen
+    hasher = StreamHasher(COMPILER_INPUT_HASHER)
+    proc = await async_popen(*args, stdin=DEVNULL, stderr=DEVNULL,
+                             stdout_filter=hasher, **kwds)
+    if await proc.wait() != 0:
+        raise SystemExit(proc.returncode)
+    return await hasher.hexdigest()
 
 
 def filtered_args_hash(args):
@@ -113,48 +112,23 @@ class CommitInfo(object):
     def sources(self):
         return self._sources
 
-    def update_sources(self, repo, targets):
+    async def update_sources(self, repo, targets):
         repo.clean()
         repo.checkout(self)
         exit_code = repo.configure()
         if exit_code:
             self.data['configure_ok'] = False
-            sources = None
+            self._sources = None
         else:
             self.data['configure_ok'] = True
-            sources = {}
-            for line in repo.get_build_commands(*targets):
-                args = shlex.split(line)
-                try:
-                    srcfile = args[-1]
-                    if not srcfile.endswith('.cpp'):
-                        continue
-                    ic = args.index('-c')
-                    io = args.index('-o')
-                    cpp_args = args.copy()
-                    cpp_args[ic] = '-E'
-                    cpp_args[io + 1] = '-'
-                    quoted_args = list(map(shlex.quote, args))
-                    quoted_args[io + 1] = '${TARGET}'
-                    quoted_args[-1] = '${SOURCE}'
-                except (IndexError, ValueError):
-                    continue
-                srcfile = intern(srcfile)
-                cpp_hash = command_output_hash(cpp_args, cwd=repo.dir)
-                arg_hash = filtered_args_hash(args[:-1])
-                sources[srcfile] = {'compiler_args': ' '.join(quoted_args),
-                                    'filtered_args_hash': arg_hash,
-                                    'preprocessed_hash': cpp_hash}
-                if len(sources) % 75 == 0:
-                    print(F'\npreprocessed {len(sources)} sources')
-            if len(sources) % 75 != 0:
-                print(F'\npreprocessed {len(sources)} sources')
-        self._sources = sources
+            cmdlines = repo.get_build_commands(*targets)
+            self._sources = await repo.preprocess_sources(cmdlines)
         self.data['commit_date'] = self.cdate
         self.data['commit_subject'] = self.subject
         self.data['last_refresh'] = int(time())
         self.data['targets'] = sorted(targets)
         self.updated = True
+        return self._sources
 
 #endclass
 
@@ -242,16 +216,17 @@ class GitRepo(object):
                 continue
             yield CommitInfo(c_hash, c_time, c_subj)
 
-    def timed_command(self, *args):
-        proc = popen2('/usr/bin/time', '-o', '/dev/stdout',
-                      '-f', '%U %M %F', '--quiet', *args,
-                      stderr=subprocess.DEVNULL,
-                      highlight=[0,6], cwd=self.dir)
-        lastline = ''
-        for line in proc.stdout:
-            line = line.strip()
-            if line:
-                lastline = line
+    async def timed_command(self, *args):
+        from procutil import async_popen
+        proc = await async_popen(
+                '/usr/bin/time', '-o', '/dev/stdout', '-f', '%U %M %F', '--quiet',
+                *args, highlight=[0,6], cwd=self.dir,
+                stdin=DEVNULL, stdout=PIPE, stderr=DEVNULL)
+        lastline = b''
+        async for bline in proc.stdout:
+            bline = bline.strip()
+            if bline:
+                lastline = bline
         lastline = lastline.split()
         try:
             res = dict(duration=float(lastline[0]),
@@ -259,9 +234,47 @@ class GitRepo(object):
                        pagefaults=int(lastline[2]),
                        timestamp=int(time()))
         except (IndexError, ValueError):
-            res = dict(failed=True)
-        if proc.wait():
-            res['failed'] = True
+            res = {'failed': 'parsing /usr/bin/time output'}
+        if await proc.wait() != 0:
+            res.setdefault('failed', proc.returncode or True)
         return res
+
+    async def preprocess_single(self, cxx_args, cpp_args):
+        srcfile = intern(cxx_args.pop())
+        arg_hash = filtered_args_hash(cxx_args)
+        cpp_hash = await command_output_hash(*cpp_args, cwd=self.dir)
+        return srcfile, {'compiler_args': ' '.join(cxx_args),
+                         'filtered_args_hash': arg_hash,
+                         'preprocessed_hash': cpp_hash}
+
+    async def _aiter_preprocess(self, cmdlines):
+        async for cmdline in cmdlines:
+            cxx_args = shlex.split(cmdline)
+            try:
+                srcfile = cxx_args[-1]
+                if not srcfile.endswith('.cpp'):
+                    continue
+                io = cxx_args.index('-o')
+                del cxx_args[io:io + 2]
+                ic = cxx_args.index('-c')
+                cpp_args = cxx_args.copy()
+                cpp_args[ic] = '-E'
+            except (IndexError, ValueError):
+                continue
+            # yield coroutine object, no await
+            yield self.preprocess_single(cxx_args, cpp_args)
+
+    async def preprocess_sources(self, cmdlines):
+        sources = {}
+        count = 0
+        aiter = self._aiter_preprocess(cmdlines)
+        async for srcfile, data in async_batch(aiter, max_concurrent=2):
+            sources[srcfile] = data
+            count += 1
+            if count % 75 == 0:
+                print(F'\npreprocessed {count} sources')
+        if count % 75 != 0:
+            print(F'\npreprocessed {count} sources')
+        return sources
 
 #endclass
