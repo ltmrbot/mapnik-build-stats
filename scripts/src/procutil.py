@@ -1,5 +1,4 @@
 import shlex
-import sys
 from subprocess import DEVNULL, PIPE, Popen
 from time import gmtime, strftime
 
@@ -11,9 +10,9 @@ def _log_command(args, highlight, hicolor):
         quoted = list(map(shlex.quote, args))
         for i in highlight:
             quoted[i] = F'\033[{hicolor}m{quoted[i]}\033[m'
-        print('\n' + ' '.join(quoted), file=sys.stderr, flush=True)
+        print('\n' + ' '.join(quoted), flush=True)
     else:
-        print('.', end='', file=sys.stderr, flush=True)
+        print('.', end='', flush=True)
 
 
 def check_exit(proc):
