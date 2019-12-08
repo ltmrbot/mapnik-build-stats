@@ -1,0 +1,9 @@
+commit_date: 1436926779
+commit_subject: 'fix #2975 - remove usage of boost/algorithm/clamp.hpp'
+configure_ok: true
+last_refresh: 1575822751
+targets:
+- deps/
+- plugins/
+- src/
+- utils/
