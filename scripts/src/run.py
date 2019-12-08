@@ -9,9 +9,14 @@ import shlex
 import shutil
 import tempfile
 from time import time
-from datacache import DataCache
+from datacache import DataCache, days_ago
 from gitutil import GitRepo
 from procutil import check_exit, popen, strdatetime
+from random import randint
+
+
+REFRESH_THRESHOLD = days_ago(randint(14, 28))
+REFRESH_THRESHOLD = max(1575734000, REFRESH_THRESHOLD)
 
 
 class DeadlineReached(BaseException):
@@ -47,6 +52,9 @@ class ArgumentNamespace(argparse.Namespace):
 
 
 class MapnikGitRepo(GitRepo):
+
+    def _open_config_status(self, mode):
+        return open(os.path.join(self.dir, 'config.commit_and_status'), mode)
 
     def checkout(self, commit):
         self.git('submodule', 'deinit', '--force', '--all')
@@ -92,12 +100,26 @@ source ./mapnik-settings.env || true
 CC={shlex.quote(os.environ.get("CC", "cc"))} \
 CXX={shlex.quote(os.environ.get("CXX", "c++"))}
 '''
-        proc = popen('bash', '-c', configure_script, 'configure.bash',
-                     highlight=[0,2], cwd=self.dir)
-        with open(os.path.join(self.dir, 'config.ok_for_commit'), 'w') as fw:
-            if proc.wait() == 0:
-                self.git('rev-parse', 'HEAD', stdout=fw)
+        with self._open_config_status('w') as fw:
+            proc = popen('bash', '-c', configure_script, 'configure.bash',
+                         highlight=[0,2], cwd=self.dir)
+            self.git('rev-parse', 'HEAD', stdout=fw)
+            print(proc.wait(), file=fw)
         return proc.wait()
+
+    def checkout_and_configure(self, commit):
+        try:
+            with self._open_config_status('r') as fr:
+                cfg_sha1 = fr.readline().strip()
+                cfg_status = int(fr.freadline())
+            if cfg_sha1 == commit.sha1 == self.tip_sha1():
+                print(F'already configured, status={cfg_status}, {commit}')
+                return cfg_status
+        except:
+            pass
+        self.clean()
+        self.checkout(commit)
+        return self.configure()
 
     async def scons(self, *args, **kwds):
         from procutil import async_popen
@@ -139,25 +161,23 @@ def next_compile_threshold(base_delay_hours, compile_timestamps):
 async def consider_commit(c, repo, dcache):
     try:
         sources = await dcache.require_commit_sources(c, repo)
+        if not sources:
+            vprint('skipping because configure failed at'
+                   F' {strdatetime(dcache.last_commit_refresh(c))}')
+            return False
     finally:
         dcache.save_commit_data(c)
 
     ARGS.check_deadline()
-    if sources is None:
-        vprint('skipping because configure failed at'
-               F' {strdatetime(dcache.last_commit_refresh(c))}')
-        return False
-
-    c.comp_keys = {}
     comp_tss = []
     for src_path, s in sources.items():
         cpp_hash = s.get('preprocessed_hash')
         arg_hash = s.get('filtered_args_hash')
         if cpp_hash is None:
             continue
+        ARGS.check_deadline()
         ts = dcache.require_compile_timestamps(src_path, arg_hash, cpp_hash)
         comp_tss.append(ts)
-        c.comp_keys[src_path] = (cpp_hash, arg_hash, ts)
 
     full_builds = min(map(len, comp_tss), default=0)
     least_recent_last = min((ts[-1] for ts in comp_tss if ts), default=None)
@@ -177,9 +197,26 @@ async def consider_commit(c, repo, dcache):
 
 
 async def process_commit(c, repo, dcache):
+
+    last_refresh = dcache.last_commit_refresh(c)
+    if last_refresh < REFRESH_THRESHOLD:
+        config_status = await c.update_sources(repo, dcache.targets)
+        dcache._update_commit_metadata(c)
+        dcache.save_commit_data(c)
+    else:
+        config_status = repo.checkout_and_configure(c)
+    if config_status != 0:
+        return
+
     now = time()
     tuples = []
-    for src_path, (cpp_hash, arg_hash, ts) in c.comp_keys.items():
+    sources = await dcache.require_commit_sources(c, repo)
+    for src_path, s in sources.items():
+        cpp_hash = s.get('preprocessed_hash')
+        arg_hash = s.get('filtered_args_hash')
+        if cpp_hash is None:
+            continue
+        ts = dcache.require_compile_timestamps(src_path, arg_hash, cpp_hash)
         if ts:
             if now < next_compile_threshold(11, ts):
                 continue
@@ -189,20 +226,8 @@ async def process_commit(c, repo, dcache):
         tuples.append((t_last, src_path, arg_hash, cpp_hash))
     if not tuples:
         return
-    try:
-        with open(os.path.join(repo.dir, 'config.ok_for_commit'), 'r') as fr:
-            ok_sha1 = fr.read().strip()
-        configured = (ok_sha1 == c.sha1 == repo.tip_sha1())
-    except:
-        configured = False
-    if configured:
-        print(F'already configured, {c}')
-    else:
-        repo.clean()
-        repo.checkout(c)
-        exit_code = repo.configure()
-        if exit_code:
-            return
+
+    print(F'\nTiming compilation, {len(tuples)} sources eligible')
     num_done = 0
     tuples.sort()
     for t_last, src_path, arg_hash, cpp_hash in tuples:

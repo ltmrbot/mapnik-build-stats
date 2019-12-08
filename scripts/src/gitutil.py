@@ -113,9 +113,7 @@ class CommitInfo(object):
         return self._sources
 
     async def update_sources(self, repo, targets):
-        repo.clean()
-        repo.checkout(self)
-        exit_code = repo.configure()
+        exit_code = repo.checkout_and_configure(self)
         if exit_code:
             self.data['configure_ok'] = False
             self._sources = None
@@ -129,7 +127,7 @@ class CommitInfo(object):
         self.data['last_refresh'] = int(time())
         self.data['targets'] = sorted(targets)
         self.updated = True
-        return self._sources
+        return exit_code
 
 #endclass
 
@@ -151,6 +149,12 @@ class GitRepo(object):
 
     def checkout(self, commit):
         self.git('checkout', '--force', commit.sha1, '--')
+
+    def checkout_and_configure(self, commit):
+        if self.tip_sha1() != commit.sha1:
+            self.clean()
+            self.checkout(commit)
+        return self.configure()
 
     def clean(self):
         self.git('clean', '-dffqx', '--')

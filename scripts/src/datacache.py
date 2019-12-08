@@ -1,15 +1,10 @@
 import os.path
 import yamlutil
-from random import randint
 from time import time
 
 
 def days_ago(days, now=time()):
     return now - days * 24 * 3600
-
-
-REFRESH_THRESHOLD = days_ago(randint(14, 28))
-REFRESH_THRESHOLD = max(1575734000, REFRESH_THRESHOLD)
 
 
 class DataCache(object):
@@ -105,19 +100,20 @@ class DataCache(object):
         return res
 
     async def require_commit_sources(self, commit, code_repo):
+        meta = self.require_commit_metadata(commit)
+        configure_ok = meta.get('configure_ok')
         res = commit.sources()
-        if res is None:
-            last_refresh = self.last_commit_refresh(commit)
-            if last_refresh >= REFRESH_THRESHOLD:
-                if commit.load_sources(data_root=self.data_repo.dir,
-                                       Loader=yamlutil.InterningLoader):
-                    res = commit.sources()
-                else:
-                    # FIXME verbose
-                    print('failed to load sources for', commit)
-        if res is None:
-            res = await commit.update_sources(code_repo, self.targets)
+        if res is None and configure_ok is True:
+            if commit.load_sources(data_root=self.data_repo.dir,
+                                   Loader=yamlutil.InterningLoader):
+                res = commit.sources()
+            else:
+                # FIXME verbose
+                print('failed to load sources for', commit)
+        if res is None and configure_ok is not False:
+            await commit.update_sources(code_repo, self.targets)
             self._update_commit_metadata(commit)
+            res = commit.sources()
         return res
 
     def require_compile_timestamps(self, src_path, arg_hash, cpp_hash):
