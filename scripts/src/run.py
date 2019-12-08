@@ -297,12 +297,13 @@ async def _main():
     except DeadlineReached as ex:
         print(F'\nreached deadline {strdatetime(ex.deadline)}')
 
-    msg = (F'N={ARGS.max_samples} since={ARGS.since}'
-           F' branches={",".join(ARGS.branches)}')
+    msg = (' '.join(ARGS.branches) +
+           F' N={ARGS.max_samples} since={ARGS.since}')
     try:
-        msg = (F'travis {os.environ["TRAVIS_JOB_NUMBER"]} {msg}\n\n'
-               F'{os.environ["TRAVIS_JOB_WEB_URL"]}\n'
-               F'{os.environ["TRAVIS_BUILD_WEB_URL"]}')
+        env = os.environ
+        msg = (F'{env["TRAVIS_EVENT_TYPE"]} job {env["TRAVIS_JOB_NUMBER"]} {msg}\n\n'
+               F'{env["TRAVIS_JOB_WEB_URL"]}\n'
+               F'{env["TRAVIS_BUILD_WEB_URL"]}')
     except KeyError:
         msg = F'run {strdatetime(start)} {msg}'
 
