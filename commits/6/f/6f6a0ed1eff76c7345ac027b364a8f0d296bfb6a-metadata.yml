@@ -1,0 +1,9 @@
+commit_date: 1574155515
+commit_subject: remove CircleCI badge
+configure_ok: true
+last_refresh: 1575766337
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

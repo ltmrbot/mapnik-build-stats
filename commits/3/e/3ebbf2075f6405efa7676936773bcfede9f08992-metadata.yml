@@ -1,0 +1,9 @@
+commit_date: 1519654388
+commit_subject: 'Merge pull request #3865 from Algunenano/master_icu_data'
+configure_ok: true
+last_refresh: 1575765018
+targets:
+- deps/
+- plugins/
+- src/
+- utils/
