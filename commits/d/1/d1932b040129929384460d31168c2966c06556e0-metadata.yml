@@ -1,0 +1,9 @@
+commit_date: 1470224050
+commit_subject: 'Merge pull request #3476 from lightmare/inherit-ctor'
+configure_ok: true
+last_refresh: 1575763582
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

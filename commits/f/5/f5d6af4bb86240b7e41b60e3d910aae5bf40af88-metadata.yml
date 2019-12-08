@@ -1,0 +1,10 @@
+commit_date: 1461677450
+commit_subject: 'agg - make cover `unsigned` to avoid left shift of negative values
+  ref #3406'
+configure_ok: false
+last_refresh: 1575763318
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

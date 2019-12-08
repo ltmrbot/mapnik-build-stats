@@ -1,0 +1,10 @@
+commit_date: 1574242883
+commit_subject: Conditionally include <mapnik/image_filter_types.hpp> for BOOST_VERSION
+  < 107000
+configure_ok: true
+last_refresh: 1575762021
+targets:
+- deps/
+- plugins/
+- src/
+- utils/
