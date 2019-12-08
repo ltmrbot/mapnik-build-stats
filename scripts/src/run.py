@@ -229,12 +229,9 @@ async def process_commit(c, repo, dcache):
         tuples.append((t_last, src_path, arg_hash, cpp_hash))
     if not tuples:
         return
-
-    print(F'\nTiming compilation, {len(tuples)} sources eligible')
-    num_done = 0
     tuples.sort()
-    for t_last, src_path, arg_hash, cpp_hash in tuples:
-        ARGS.check_deadline()
+
+    async def time_compile_one(t_last, src_path, arg_hash, cpp_hash):
         args = shlex.split(c.sources()[src_path]['compiler_args'])
         args += ['-o', src_path + '.o', src_path]
         cr = await repo.timed_command(*args)
@@ -245,11 +242,21 @@ async def process_commit(c, repo, dcache):
             crs.sort(key=lambda cr: cr['timestamp'])
             del crs[:-ARGS.max_samples]
         dcache.save_source_data(src_path, arg_hash)
-        num_done += 1
-        if num_done % 75 == 0 or num_done == len(tuples):
-            # ignore ARGS.verbose:
-            # - in non-verbose mode, we need to split long lines of dots
-            # - in verbose mode, an extra line won't hurt
+
+    print(F'\nTiming compilation, {len(tuples)} sources eligible')
+    try:
+        num_done = 0
+        for tup in tuples:
+            ARGS.check_deadline()
+            await time_compile_one(*tup)
+            num_done += 1
+            if num_done % 75 == 0:
+                # ignore ARGS.verbose:
+                # - in non-verbose mode, we need to split long lines of dots
+                # - in verbose mode, an extra line won't hurt
+                print(F'\ncompiled {num_done}/{len(tuples)} sources, {c}')
+    finally:
+        if num_done % 75 != 0:
             print(F'\ncompiled {num_done}/{len(tuples)} sources, {c}')
 
 
