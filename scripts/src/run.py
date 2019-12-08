@@ -105,7 +105,7 @@ CXX={shlex.quote(os.environ.get("CXX", "c++"))}
                          highlight=[0,2], cwd=self.dir)
             self.git('rev-parse', 'HEAD', stdout=fw)
             print(proc.wait(), file=fw)
-        return proc.wait()
+        return proc.returncode
 
     def checkout_and_configure(self, commit):
         try:

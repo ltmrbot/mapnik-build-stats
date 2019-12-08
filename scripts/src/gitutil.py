@@ -235,7 +235,7 @@ class GitRepo(object):
             res.setdefault('failed', proc.returncode or True)
         return res
 
-    async def preprocess_single(self, cxx_args, cpp_args):
+    async def preprocess_one(self, cxx_args, cpp_args):
         srcfile = intern(cxx_args.pop())
         arg_hash = filtered_args_hash(cxx_args)
         cpp_hash = await command_output_hash(*cpp_args, cwd=self.dir)
@@ -258,7 +258,7 @@ class GitRepo(object):
             except (IndexError, ValueError):
                 continue
             # yield coroutine object, no await
-            yield self.preprocess_single(cxx_args, cpp_args)
+            yield self.preprocess_one(cxx_args, cpp_args)
 
     async def preprocess_sources(self, *targets):
         count = 0
