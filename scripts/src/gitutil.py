@@ -121,8 +121,9 @@ class CommitInfo(object):
             self._sources = None
         else:
             self.data['configure_ok'] = True
-            cmdlines = repo.get_build_commands(*targets)
-            self._sources = await repo.preprocess_sources(cmdlines)
+            self._sources = sources = {}
+            async for sfile, smeta in repo.preprocess_sources(*targets):
+                sources[sfile] = smeta
         self.data['commit_date'] = self.cdate
         self.data['commit_subject'] = self.subject
         self.data['last_refresh'] = int(time())
@@ -242,8 +243,8 @@ class GitRepo(object):
                          'filtered_args_hash': arg_hash,
                          'preprocessed_hash': cpp_hash}
 
-    async def _aiter_preprocess(self, cmdlines):
-        async for cmdline in cmdlines:
+    async def _aiter_preprocess(self, *targets):
+        async for cmdline in self.get_build_commands(*targets):
             cxx_args = shlex.split(cmdline)
             try:
                 srcfile = cxx_args[-1]
@@ -259,17 +260,17 @@ class GitRepo(object):
             # yield coroutine object, no await
             yield self.preprocess_single(cxx_args, cpp_args)
 
-    async def preprocess_sources(self, cmdlines):
-        sources = {}
+    async def preprocess_sources(self, *targets):
         count = 0
-        aiter = self._aiter_preprocess(cmdlines)
-        async for srcfile, data in async_batch(aiter, max_concurrent=2):
-            sources[srcfile] = data
+        aiter = self._aiter_preprocess(*targets)
+        # preprocessor doesn't require huge amounts of memory,
+        # so we can run a couple of those in parallel
+        async for sfile, smeta in async_batch(aiter, max_concurrent=2):
+            yield sfile, smeta
             count += 1
             if count % 75 == 0:
                 print(F'\npreprocessed {count} sources')
         if count % 75 != 0:
             print(F'\npreprocessed {count} sources')
-        return sources
 
 #endclass
