@@ -116,8 +116,9 @@ CXX={shlex.quote(os.environ.get("CXX", "c++"))}
             print(ex)
             print(F"couldn't read {self._config_status()}")
         else:
+            print(F"previously configured, status {cfg_status}, commit {cfg_sha1}")
             if cfg_sha1 == commit.sha1 == self.tip_sha1():
-                print(F'already configured, status={cfg_status}, {commit}')
+                print("still on that commit, skipping configure")
                 return cfg_status
         self.clean()
         self.checkout(commit)
@@ -192,7 +193,7 @@ async def consider_commit(c, repo, dcache):
                    F' and {strdatetime(most_recent_last)}')
             return False
     ARGS.check_deadline()
-    print(F'\nfull_builds={full_builds} last compiled between'
+    print(F'\n{full_builds} full builds, last compiled between'
           F' {strdatetime(least_recent_last) if least_recent_last else "NEVER"}'
           F' and {strdatetime(most_recent_last) if most_recent_last else "NEVER"}')
     return True
