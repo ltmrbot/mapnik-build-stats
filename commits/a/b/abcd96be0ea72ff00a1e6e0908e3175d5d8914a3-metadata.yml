@@ -1,0 +1,9 @@
+commit_date: 1542810258
+commit_subject: 'Merge pull request #4009 from mapycz/cairo-polygon-pattern-vectorial'
+configure_ok: true
+last_refresh: 1575816581
+targets:
+- deps/
+- plugins/
+- src/
+- utils/
