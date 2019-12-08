@@ -112,7 +112,7 @@ class DataCache(object):
                 print('failed to load sources for', commit)
         if res is None and configure_ok is not False:
             await commit.update_sources(code_repo, self.targets)
-            self._update_commit_metadata(commit)
+            meta = self._update_commit_metadata(commit)
             res = commit.sources()
         return res
 

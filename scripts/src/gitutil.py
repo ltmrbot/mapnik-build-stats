@@ -47,7 +47,8 @@ class CommitInfo(object):
         self.sha1 = sha1
         self.cdate = cdate
         self.subject = subject
-        self.data = {'commit_date': cdate, 'commit_subject': subject}
+        self._fixed = {'commit_date': cdate, 'commit_subject': subject}
+        self.data = self._fixed.copy()
         self.updated = False
         self.gap_before = 7305 * 24 * 3600
         self.gap_after = 14610 * 24 * 3600
@@ -69,11 +70,11 @@ class CommitInfo(object):
         try:
             with open(self._metadata_yml(data_root), 'r') as fr:
                 data = yaml.load(fr, Loader)
-            if isinstance(data, dict):
-                self.data = data
-                self.updated = False
-                return True
-            return False
+            data.update(self._fixed)
+            self.data.clear()
+            self.data.update(data)
+            self.updated = False
+            return True
         except Exception:
             return False
 
