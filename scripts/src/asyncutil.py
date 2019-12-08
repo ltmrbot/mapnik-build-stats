@@ -195,16 +195,26 @@ async def async_batch(aiterable, *, max_concurrent=1, loop=None):
 ## SELF TEST
 
 if __name__ == "__main__":
-    async def sleepers():
-        delays = [2.2, 0.5, 0.3, 1.7, 0.9, 1.1]
+    async def sleepers(delays):
         for t in delays:
             yield asyncio.sleep(t, t)
-    async def main(start):
-        async for y in async_batch(sleepers(), max_concurrent=3):
-            print(F'finished sleep({y}) after {loop.time() - start:.1f}')
+    async def test_delays(concur, *delays):
+        start = loop.time()
+        tasks = sleepers(delays)
+        async for y in async_batch(tasks, max_concurrent=concur):
+            print(F'finished sleep({y}) after {loop.time() - start:.3f}')
+    async def test_uniform(concur, total, delay):
+        print(F'starting {total}x sleep({delay}) with max_concurrent={concur}')
+        start = loop.time()
+        tasks = sleepers(delay for _ in range(total))
+        fin = 0
+        async for y in async_batch(tasks, max_concurrent=concur):
+            fin += 1
+            if fin % concur == 0:
+                print(F'finished {fin}x sleep({y}) after {loop.time() - start:.3f}')
     try:
         loop = asyncio.get_event_loop()
-        main_coro = main(loop.time())
-        loop.run_until_complete(main_coro)
+        loop.run_until_complete(test_delays(3, 2.2, 0.5, 0.3, 1.7, 0.9, 1.1))
+        loop.run_until_complete(test_uniform(15, 90, 0.25))
     finally:
         loop.close()
