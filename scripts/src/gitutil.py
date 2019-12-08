@@ -50,8 +50,6 @@ class CommitInfo(object):
         self._fixed = {'commit_date': cdate, 'commit_subject': subject}
         self.data = self._fixed.copy()
         self.updated = False
-        self.gap_before = 7305 * 24 * 3600
-        self.gap_after = 14610 * 24 * 3600
         self._sources = None
 
     def __str__(self):
@@ -106,9 +104,6 @@ class CommitInfo(object):
                 pass
         with open(self._metadata_yml(data_root), 'w') as fw:
             yaml.safe_dump(self.data, stream=fw, default_flow_style=False)
-
-    def sortkey(self):
-        return self.gap_before + self.gap_after
 
     def sources(self):
         return self._sources
