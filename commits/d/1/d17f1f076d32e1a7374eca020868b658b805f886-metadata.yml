@@ -1,0 +1,9 @@
+commit_date: 1469013548
+commit_subject: 'workaround travis bug: ''shell_session_update: command not found'''
+configure_ok: true
+last_refresh: 1575839313
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

@@ -1,0 +1,9 @@
+commit_date: 1447352396
+commit_subject: Merge branch 'master' of github.com:mapnik/mapnik
+configure_ok: false
+last_refresh: 1575838928
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

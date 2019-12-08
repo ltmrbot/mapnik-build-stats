@@ -1,0 +1,9 @@
+commit_date: 1456313046
+commit_subject: prune include directives a bit more
+configure_ok: false
+last_refresh: 1575838945
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

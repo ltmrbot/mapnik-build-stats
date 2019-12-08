@@ -1,0 +1,9 @@
+commit_date: 1472666967
+commit_subject: Avoid warnings when building the g++5
+configure_ok: false
+last_refresh: 1575838912
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

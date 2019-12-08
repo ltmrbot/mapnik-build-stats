@@ -1,0 +1,9 @@
+commit_date: 1507274878
+commit_subject: fix memory leak (#3775)
+configure_ok: true
+last_refresh: 1575839088
+targets:
+- deps/
+- plugins/
+- src/
+- utils/
