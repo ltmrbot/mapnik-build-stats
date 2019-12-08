@@ -53,8 +53,8 @@ class ArgumentNamespace(argparse.Namespace):
 
 class MapnikGitRepo(GitRepo):
 
-    def _open_config_status(self, mode):
-        return open(os.path.join(self.dir, 'config.commit_and_status'), mode)
+    def _config_status(self):
+        return os.path.join(self.dir, 'config.commit_and_status')
 
     def checkout(self, commit):
         self.git('submodule', 'deinit', '--force', '--all')
@@ -100,7 +100,7 @@ source ./mapnik-settings.env || true
 CC={shlex.quote(os.environ.get("CC", "cc"))} \
 CXX={shlex.quote(os.environ.get("CXX", "c++"))}
 '''
-        with self._open_config_status('w') as fw:
+        with open(self._config_status(), 'w') as fw:
             proc = popen('bash', '-c', configure_script, 'configure.bash',
                          highlight=[0,2], cwd=self.dir)
             self.git('rev-parse', 'HEAD', stdout=fw)
@@ -109,14 +109,16 @@ CXX={shlex.quote(os.environ.get("CXX", "c++"))}
 
     def checkout_and_configure(self, commit):
         try:
-            with self._open_config_status('r') as fr:
+            with open(self._config_status(), 'r') as fr:
                 cfg_sha1 = fr.readline().strip()
-                cfg_status = int(fr.freadline())
+                cfg_status = int(fr.readline())
+        except Exception as ex:
+            print(ex)
+            print(F"couldn't read {self._config_status()}")
+        else:
             if cfg_sha1 == commit.sha1 == self.tip_sha1():
                 print(F'already configured, status={cfg_status}, {commit}')
                 return cfg_status
-        except:
-            pass
         self.clean()
         self.checkout(commit)
         return self.configure()
