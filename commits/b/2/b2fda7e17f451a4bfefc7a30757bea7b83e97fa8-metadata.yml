@@ -1,0 +1,10 @@
+commit_date: 1458043428
+commit_subject: '[CORRECTED] sv_utils - check and skip processing lines consisting
+  only of 0xa (windows) ( fixes #3359 )'
+configure_ok: false
+last_refresh: 1575824729
+targets:
+- deps/
+- plugins/
+- src/
+- utils/
