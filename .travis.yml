@@ -26,11 +26,8 @@ jobs:
       name: Check script
       script:
         - python3 "scripts/src/run.py" --help
-        - |
-          if test -n "$SSHPASS"
-          then
-              git -C ./data ls-remote --heads "git@github.com:${TRAVIS_REPO_SLUG}.git"
-          fi
+        - test -z "$SSHPASS" ||
+          git -C ./data ls-remote --heads "git@github.com:${TRAVIS_REPO_SLUG}.git"
       after_success:
         - true
     - stage: Collect stats
@@ -71,8 +68,5 @@ before_cache:
     fi
 
 after_success:
-  - |
-    if test -n "$SSHPASS"
-    then
-        git -C ./data push -v "git@github.com:${TRAVIS_REPO_SLUG}.git"
-    fi
+  - test -z "$SSHPASS" ||
+    git -C ./data push -v "git@github.com:${TRAVIS_REPO_SLUG}.git"
