@@ -1,0 +1,9 @@
+commit_date: 1565790790
+commit_subject: 'travis: remove downstream trigger (refs #3366)'
+configure_ok: true
+last_refresh: 1575911082
+targets:
+- deps/
+- plugins/
+- src/
+- utils/
