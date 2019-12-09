@@ -1,0 +1,9 @@
+commit_date: 1443095428
+commit_subject: back to mapnik-gyp/master [build appveyor]
+configure_ok: true
+last_refresh: 1575885216
+targets:
+- deps/
+- plugins/
+- src/
+- utils/
