@@ -1,0 +1,9 @@
+commit_date: 1531935072
+commit_subject: 'proj_transform test: also check that transform succeeded'
+configure_ok: true
+last_refresh: 1575850690
+targets:
+- deps/
+- plugins/
+- src/
+- utils/
