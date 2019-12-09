@@ -1,0 +1,9 @@
+commit_date: 1465809299
+commit_subject: make `get_overview_meta(band)` standalone method
+configure_ok: true
+last_refresh: 1575922479
+targets:
+- deps/
+- plugins/
+- src/
+- utils/
