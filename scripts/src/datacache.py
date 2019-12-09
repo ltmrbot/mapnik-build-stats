@@ -47,11 +47,6 @@ class DataCache(object):
         return os.path.join(self.data_repo.dir, 'sources',
                             arg_hash[:2], arg_hash, F'{src_path}.yml')
 
-    def _update_commit_metadata(self, commit):
-        meta = commit.metadata()
-        self._persist_dict('commits', commit.sha1)['metadata'] = meta
-        return meta
-
     def _update_compile_timestamps(self, sdata, src_path, arg_hash):
         d = self._persist_dict('compiles', arg_hash, src_path)
         for cpp_hash, ts in d.items():
@@ -80,6 +75,10 @@ class DataCache(object):
                 return meta.get('last_refresh', 0)
         return 0
 
+    def was_configure_ok(self, commit):
+        meta = self.require_commit_metadata(commit)
+        return meta.get('configure_ok')
+
     def require_commit_metadata(self, commit):
         try:
             return self._persistent['commits'][commit.sha1]['metadata']
@@ -93,21 +92,15 @@ class DataCache(object):
         self._persist_dict('commits', commit.sha1)['metadata'] = res
         return res
 
-    async def require_commit_sources(self, commit, code_repo):
-        meta = self.require_commit_metadata(commit)
-        configure_ok = meta.get('configure_ok')
+    def require_commit_sources(self, commit):
         res = commit.sources()
-        if res is None and configure_ok is True:
+        if res is None:
             if commit.load_sources(data_root=self.data_repo.dir,
                                    Loader=yamlutil.InterningLoader):
                 res = commit.sources()
             else:
                 # FIXME verbose
                 print('failed to load sources for', commit)
-        if res is None and configure_ok is not False:
-            await commit.update_sources(code_repo, self.targets)
-            meta = self._update_commit_metadata(commit)
-            res = commit.sources()
         return res
 
     def require_compile_timestamps(self, src_path, arg_hash, cpp_hash):
@@ -158,5 +151,10 @@ class DataCache(object):
         self.data_repo.git('commit', '-m', message)
         # if there's nothing to commit, git will report that fact,
         # and this will raise SystemExit
+
+    def update_commit_metadata(self, commit):
+        meta = commit.metadata()
+        self._persist_dict('commits', commit.sha1)['metadata'] = meta
+        return meta
 
 #endclass

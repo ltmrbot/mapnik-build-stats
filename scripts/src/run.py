@@ -166,7 +166,17 @@ def next_compile_threshold(base_delay_hours, compile_timestamps):
 
 async def consider_commit(c, repo, dcache):
     try:
-        sources = await dcache.require_commit_sources(c, repo)
+        configure_ok = dcache.was_configure_ok(c)
+        if configure_ok is False:
+            sources = None
+        else:
+            sources = dcache.require_commit_sources(c)
+            if sources is None:
+                config_status = await c.update_sources(repo, dcache.targets)
+                dcache.update_commit_metadata(c)
+                dcache.save_commit_data(c)
+                if config_status == 0:
+                    sources = dcache.get_commit_sources(c)
         if not sources:
             vprint('skipping because configure failed at'
                    F' {strdatetime(dcache.last_commit_refresh(c))}')
@@ -207,7 +217,7 @@ async def process_commit(c, repo, dcache):
     last_refresh = dcache.last_commit_refresh(c)
     if last_refresh < REFRESH_THRESHOLD:
         config_status = await c.update_sources(repo, dcache.targets)
-        dcache._update_commit_metadata(c)
+        dcache.update_commit_metadata(c)
         dcache.save_commit_data(c)
     else:
         config_status = repo.checkout_and_configure(c)
@@ -216,7 +226,7 @@ async def process_commit(c, repo, dcache):
 
     now = time()
     tuples = []
-    sources = await dcache.require_commit_sources(c, repo)
+    sources = dcache.require_commit_sources(c)
     for src_path, s in sources.items():
         cpp_hash = s.get('preprocessed_hash')
         arg_hash = s.get('filtered_args_hash')
