@@ -154,6 +154,8 @@ CXX={shlex.quote(os.environ.get("CXX", "c++"))}
 
 
 def next_compile_threshold(base_delay_hours, compile_timestamps):
+    if not compile_timestamps:
+        return 0
     n = len(compile_timestamps)
     latest = compile_timestamps[-1]
     multiplier = 3600 * (1.5 * n - 0.5 / n)
@@ -220,18 +222,15 @@ async def process_commit(c, repo, dcache):
         if cpp_hash is None:
             continue
         ts = dcache.require_compile_timestamps(src_path, arg_hash, cpp_hash)
-        if ts:
-            if now < next_compile_threshold(11, ts):
-                continue
-            t_last = ts[-1]
-        else:
-            t_last = 0
-        tuples.append((t_last, src_path, arg_hash, cpp_hash))
+        thres = next_compile_threshold(11, ts)
+        if now < thres:
+            continue
+        tuples.append((thres, src_path, arg_hash, cpp_hash))
     if not tuples:
         return
-    tuples.sort()
+    tuples.sort() # order by next_compile_threshold
 
-    async def time_compile_one(t_last, src_path, arg_hash, cpp_hash):
+    async def time_compile_one(src_path, arg_hash, cpp_hash):
         args = shlex.split(c.sources()[src_path]['compiler_args'])
         args += ['-o', src_path + '.o', src_path]
         cr = await repo.timed_command(*args)
@@ -246,9 +245,9 @@ async def process_commit(c, repo, dcache):
     print(F'\nTiming compilation, {len(tuples)} sources eligible')
     try:
         num_done = 0
-        for tup in tuples:
+        for thres, *params in tuples:
             ARGS.check_deadline()
-            await time_compile_one(*tup)
+            await time_compile_one(*params)
             num_done += 1
             if num_done % 75 == 0:
                 # ignore ARGS.verbose:
