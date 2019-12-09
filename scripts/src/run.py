@@ -3,16 +3,17 @@
 import argparse
 import asyncio
 import os
-import procutil
 import random
 import shlex
 import shutil
 import tempfile
-from time import time
-from datacache import DataCache, days_ago
-from gitutil import GitRepo
-from procutil import check_exit, popen, strdatetime
 from random import randint
+from time import time
+
+import procutil
+from datacache import DataCache
+from gitutil import GitRepo
+from procutil import check_exit, popen, days_ago, strdatetime
 
 
 REFRESH_THRESHOLD = days_ago(randint(14, 28))
@@ -234,7 +235,8 @@ async def process_commit(c, repo, dcache):
         args = shlex.split(c.sources()[src_path]['compiler_args'])
         args += ['-o', src_path + '.o', src_path]
         cr = await repo.timed_command(*args)
-        sdata = dcache.require_source_data(src_path, arg_hash)
+        sdata = dcache.require_source_data(src_path, arg_hash,
+                                           prune_before=days_ago(360))
         crs = sdata.setdefault(cpp_hash, [])
         crs.append(cr)
         if len(crs) > ARGS.max_samples:

@@ -1,6 +1,6 @@
 import shlex
 from subprocess import DEVNULL, PIPE, Popen
-from time import gmtime, strftime
+from time import gmtime, strftime, time
 
 verbose = False
 
@@ -43,6 +43,10 @@ def popen2(*args, highlight=[0], **kwds):
     _log_command(args, highlight, 96)
     kwds.setdefault('universal_newlines', True)
     return Popen(args, stdin=DEVNULL, stdout=PIPE, **kwds)
+
+
+def days_ago(days, *, since=time()):
+    return since - days * 86400
 
 
 def strdatetime(ts):

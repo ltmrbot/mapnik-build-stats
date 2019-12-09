@@ -1,10 +1,5 @@
 import os.path
 import yamlutil
-from time import time
-
-
-def days_ago(days, now=time()):
-    return now - days * 24 * 3600
 
 
 class DataCache(object):
@@ -35,15 +30,14 @@ class DataCache(object):
                 d[k] = d = {}
         return d
 
-    def _prune_source_data(self, sdata):
+    def _prune_source_data(self, sdata, before):
         """
         Remove very old build records.
 
         """
         modified = False
         for builds in sdata.values():
-            recent = [r for r in builds
-                        if r.get('timestamp', 0) >= days_ago(360)]
+            recent = [r for r in builds if r.get('timestamp', 0) >= before]
             if len(builds) > len(recent):
                 builds[:] = recent
                 modified = True
@@ -124,17 +118,18 @@ class DataCache(object):
             d = self._persistent['compiles'][arg_hash][src_path]
         return d.setdefault(cpp_hash, [])
 
-    def require_source_data(self, *skey):
+    def require_source_data(self, *skey, prune_before=None):
         sdata = self.sdata_cache.get(skey)
         if sdata is None:
             try:
                 s_file = self._source_data_file(*skey)
                 sdata = yamlutil.load_file(s_file)
-                if self._prune_source_data(sdata):
-                    self.sdata_modified.add(skey)
             except Exception:
                 sdata = {}
             self.sdata_cache[skey] = sdata
+        if prune_before is not None:
+            if self._prune_source_data(sdata, prune_before):
+                self.sdata_modified.add(skey)
         self._update_compile_timestamps(sdata, *skey)
         return sdata
 
