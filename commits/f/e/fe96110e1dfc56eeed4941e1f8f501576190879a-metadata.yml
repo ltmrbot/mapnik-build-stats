@@ -1,0 +1,9 @@
+commit_date: 1565790643
+commit_subject: 'travis: install clang from apt'
+configure_ok: true
+last_refresh: 1575927929
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

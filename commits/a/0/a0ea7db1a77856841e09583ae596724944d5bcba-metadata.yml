@@ -1,0 +1,9 @@
+commit_date: 1565607154
+commit_subject: 'Merge pull request #3984 from lightmare/pg-app-name'
+configure_ok: true
+last_refresh: 1575927748
+targets:
+- deps/
+- plugins/
+- src/
+- utils/
