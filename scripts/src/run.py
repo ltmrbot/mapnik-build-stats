@@ -90,6 +90,7 @@ class MapnikGitRepo(GitRepo):
                      highlight=[0,1], cwd=self.dir, stderr=stderr)
         if proc.wait() == 0:
             self.bootstrap_ok = nok + 1
+        print(F'bootstrap.sh returned {proc.returncode}')
         return proc.returncode
 
     def configure(self):
@@ -109,6 +110,7 @@ CXX={shlex.quote(os.environ.get("CXX", "c++"))}
                          highlight=[0,2], cwd=self.dir)
             self.git('rev-parse', 'HEAD', stdout=fw)
             print(proc.wait(), file=fw)
+        print(F'configure returned {proc.returncode}')
         return proc.returncode
 
     def checkout_and_configure(self, commit):
