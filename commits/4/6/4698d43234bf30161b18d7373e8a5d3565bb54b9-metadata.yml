@@ -1,0 +1,9 @@
+commit_date: 1548153372
+commit_subject: 'fix Boost.GIL includes for BOOST_VERSION >= 1.69 (ref #4000)'
+configure_ok: true
+last_refresh: 1575913149
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

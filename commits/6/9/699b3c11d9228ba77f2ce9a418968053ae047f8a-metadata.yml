@@ -1,0 +1,9 @@
+commit_date: 1565791299
+commit_subject: 'travis: silence gcov output and errors flooding build log'
+configure_ok: true
+last_refresh: 1575914642
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

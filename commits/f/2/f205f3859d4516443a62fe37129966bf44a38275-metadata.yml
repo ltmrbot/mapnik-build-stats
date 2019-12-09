@@ -1,0 +1,9 @@
+commit_date: 1495181401
+commit_subject: 'Merge pull request #3671 from mapnik/tiff-multiband-grey'
+configure_ok: true
+last_refresh: 1575913382
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

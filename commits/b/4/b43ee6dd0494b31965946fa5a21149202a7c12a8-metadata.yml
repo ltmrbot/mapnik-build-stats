@@ -1,0 +1,10 @@
+commit_date: 1455792358
+commit_subject: 'beef up `has_index` method to check if *.index file is valid (has
+  expected header) (ref #3300)'
+configure_ok: false
+last_refresh: 1575914665
+targets:
+- deps/
+- plugins/
+- src/
+- utils/
