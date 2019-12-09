@@ -98,7 +98,9 @@ async def async_popen(program, *args, highlight=[0],
     transport, protocol = await loop.subprocess_exec(protocol_factory, *argv,
                                                      stdin=stdin, stdout=stdout,
                                                      stderr=stderr, **kwds)
-    return Process(transport, protocol, loop)
+    proc = Process(transport, protocol, loop)
+    proc.args = transport.get_extra_info("subprocess").args
+    return proc
 #enddef
 
 

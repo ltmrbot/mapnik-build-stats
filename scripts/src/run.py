@@ -131,14 +131,14 @@ CXX={shlex.quote(os.environ.get("CXX", "c++"))}
                                  highlight=[0,1], cwd=self.dir, **kwds)
 
     async def get_build_commands(self, *targets):
-        from subprocess import DEVNULL, PIPE
+        from subprocess import CalledProcessError, DEVNULL, PIPE
         print('Generating build commands...', *targets)
         proc = await self.scons('--dry-run', '--no-cache', *targets,
                                 stdin=DEVNULL, stdout=PIPE)
         async for bline in proc.stdout:
             yield bline.decode()
         if await proc.wait() != 0:
-            raise SystemExit(proc.returncode)
+            raise CalledProcessError(proc.returncode, proc.args)
 
     def setup_local_submodules(self):
         import re
@@ -177,6 +177,9 @@ async def consider_commit(c, repo, dcache):
                 dcache.save_commit_data(c)
                 if config_status == 0:
                     sources = dcache.get_commit_sources(c)
+        # A check just for None would not be sufficient here, because
+        # SCons can still fail to print any build commands due to errors
+        # in build scripts that were not included during configure step.
         if not sources:
             vprint('skipping because configure failed at'
                    F' {strdatetime(dcache.last_commit_refresh(c))}')

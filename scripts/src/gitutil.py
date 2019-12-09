@@ -5,7 +5,7 @@ import yaml
 from asyncutil import async_batch
 from hashlib import sha1 as COMPILER_INPUT_HASHER
 from procutil import check_exit, popen, popen2, strdatetime
-from subprocess import DEVNULL, PIPE
+from subprocess import CalledProcessError, DEVNULL, PIPE
 from sys import intern
 from time import time
 
@@ -243,8 +243,16 @@ class GitRepo(object):
                          'filtered_args_hash': arg_hash,
                          'preprocessed_hash': cpp_hash}
 
+    async def _aiter_cmdlines(self, *targets):
+        try:
+            async for cmdline in self.get_build_commands(*targets):
+                yield cmdline
+        except CalledProcessError as ex:
+            print("non-fatal: subprocess returned", ex.returncode)
+            print("failed command:", *map(shlex.quote, ex.cmd))
+
     async def _aiter_preprocess(self, *targets):
-        async for cmdline in self.get_build_commands(*targets):
+        async for cmdline in self._aiter_cmdlines(*targets):
             cxx_args = shlex.split(cmdline)
             try:
                 srcfile = cxx_args[-1]
