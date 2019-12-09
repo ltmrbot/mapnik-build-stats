@@ -1,0 +1,9 @@
+commit_date: 1551956733
+commit_subject: remove bogus quote from `ST_EstimatedExtent` SQL {#4032) via @urzhumskov
+configure_ok: true
+last_refresh: 1575881402
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

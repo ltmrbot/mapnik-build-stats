@@ -1,0 +1,9 @@
+commit_date: 1567175428
+commit_subject: rename MAPNIK_MAKE_VERSION to MAPNIK_VERSION_ENCODE
+configure_ok: true
+last_refresh: 1575880412
+targets:
+- deps/
+- plugins/
+- src/
+- utils/
