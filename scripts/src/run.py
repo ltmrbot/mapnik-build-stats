@@ -66,6 +66,9 @@ class MapnikGitRepo(GitRepo):
             self.python = 'python3'
             # 8cd2ae322 2017-11-22 14:56:20 +0100 "support both python 2 and 3."
             # b0f3f1aed 2017-11-24 11:29:14 +0100 "port Scons3 support from master"
+            proc2to3 = popen("find -name scons -prune , -name build.py -exec 2to3-2.7 --write '{}' +",
+                             shell=True, cwd=self.dir)
+            proc2to3.wait() # ignore result
 
         if ARGS.use_local_submodules:
             self.setup_local_submodules()
