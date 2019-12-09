@@ -1,0 +1,10 @@
+commit_date: 1499088448
+commit_subject: 'wkb_reader : pre-allocate number of polygons in `multi_polygon` and
+  number of geometries in `geometry_collection` via `vector.reserce(...)`'
+configure_ok: true
+last_refresh: 1575898050
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

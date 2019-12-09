@@ -1,0 +1,9 @@
+commit_date: 1550066400
+commit_subject: 'Merge pull request #4031 from mapycz/adaptive-smooth'
+configure_ok: true
+last_refresh: 1575899383
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

@@ -1,0 +1,10 @@
+commit_date: 1453928126
+commit_subject: 'postgis unit test: copy params to ensure that each test is independent
+  and order does not matter'
+configure_ok: false
+last_refresh: 1575897668
+targets:
+- deps/
+- plugins/
+- src/
+- utils/
