@@ -1,0 +1,10 @@
+commit_date: 1573826109
+commit_subject: Fix `boost_regex compiled with ICU support` check for BOOST_VERSION
+  >= 1_70
+configure_ok: true
+last_refresh: 1575853955
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

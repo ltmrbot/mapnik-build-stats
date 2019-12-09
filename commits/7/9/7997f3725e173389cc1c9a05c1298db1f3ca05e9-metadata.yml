@@ -1,0 +1,9 @@
+commit_date: 1452788383
+commit_subject: 'Merge pull request #3235 from mapnik/raster_mem_ds'
+configure_ok: false
+last_refresh: 1575853785
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

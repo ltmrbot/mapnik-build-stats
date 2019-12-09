@@ -1,0 +1,10 @@
+commit_date: 1444942562
+commit_subject: maintain 'FT_LOAD_NO_HINTING' / adapt to changes upstream in harfbuzz
+  1.0.5 mapnik/test-data-visual#25
+configure_ok: false
+last_refresh: 1575854175
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

@@ -1,0 +1,9 @@
+commit_date: 1535201605
+commit_subject: 'travis: shortcut'
+configure_ok: true
+last_refresh: 1575854362
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

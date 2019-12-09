@@ -1,0 +1,9 @@
+commit_date: 1446130896
+commit_subject: add hint of how to compile geojson unit test without scons
+configure_ok: false
+last_refresh: 1575853764
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

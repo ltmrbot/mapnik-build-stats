@@ -1,0 +1,9 @@
+commit_date: 1574156031
+commit_subject: 'remove .circleci/config.yml (ref #4100)'
+configure_ok: true
+last_refresh: 1575854154
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

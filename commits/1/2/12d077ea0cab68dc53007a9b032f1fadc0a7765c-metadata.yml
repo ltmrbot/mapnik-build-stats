@@ -1,0 +1,9 @@
+commit_date: 1498722076
+commit_subject: disable bbox comparison (WIP)
+configure_ok: true
+last_refresh: 1575852815
+targets:
+- deps/
+- plugins/
+- src/
+- utils/
