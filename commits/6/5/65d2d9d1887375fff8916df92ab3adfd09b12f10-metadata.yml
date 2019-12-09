@@ -1,0 +1,9 @@
+commit_date: 1566228945
+commit_subject: 'scons: use gdal-config to obtain GDAL data path'
+configure_ok: true
+last_refresh: 1575887205
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

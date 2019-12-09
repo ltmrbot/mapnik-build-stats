@@ -1,0 +1,9 @@
+commit_date: 1574678194
+commit_subject: Make x3::rules declarations const
+configure_ok: true
+last_refresh: 1575888608
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

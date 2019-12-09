@@ -1,0 +1,9 @@
+commit_date: 1565594870
+commit_subject: 'Merge pull request #3319 from mapnik/ST_MakeEnvelope'
+configure_ok: true
+last_refresh: 1575888770
+targets:
+- deps/
+- plugins/
+- src/
+- utils/
