@@ -1,0 +1,10 @@
+commit_date: 1574071166
+commit_subject: 'Set initial STACK_SIZE to 16 (plenty), make it private static member
+  var (ref #4096)'
+configure_ok: true
+last_refresh: 1575983626
+targets:
+- deps/
+- plugins/
+- src/
+- utils/
