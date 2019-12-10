@@ -70,7 +70,7 @@ class MapnikGitRepo(GitRepo):
                              shell=True, cwd=self.dir)
             proc2to3.wait() # ignore result
 
-        if ARGS.use_local_submodules:
+        if OPTIONS.use_local_submodules:
             self.setup_local_submodules()
 
         self.git('submodule', 'update', '--init', '--', 'deps/')
@@ -94,7 +94,7 @@ class MapnikGitRepo(GitRepo):
         return proc.returncode
 
     def configure(self):
-        if ARGS.use_mason:
+        if OPTIONS.use_mason:
             returncode = self.bootstrap()
             if returncode != 0:
                 return returncode
@@ -192,14 +192,14 @@ async def consider_commit(c, repo, dcache):
     finally:
         dcache.save_commit_data(c)
 
-    ARGS.check_deadline()
+    OPTIONS.check_deadline()
     comp_tss = []
     for src_path, s in sources.items():
         cpp_hash = s.get('preprocessed_hash')
         arg_hash = s.get('filtered_args_hash')
         if cpp_hash is None:
             continue
-        ARGS.check_deadline()
+        OPTIONS.check_deadline()
         ts = dcache.require_compile_timestamps(src_path, arg_hash, cpp_hash)
         comp_tss.append(ts)
 
@@ -213,7 +213,7 @@ async def consider_commit(c, repo, dcache):
                    F' {strdatetime(least_recent_last)}'
                    F' and {strdatetime(most_recent_last)}')
             return False
-    ARGS.check_deadline()
+    OPTIONS.check_deadline()
     print(F'\n{full_builds} full builds, last compiled between'
           F' {strdatetime(least_recent_last) if least_recent_last else "NEVER"}'
           F' and {strdatetime(most_recent_last) if most_recent_last else "NEVER"}')
@@ -257,20 +257,20 @@ async def process_commit(c, repo, dcache):
                                            prune_before=days_ago(360))
         crs = sdata.setdefault(cpp_hash, [])
         crs.append(cr)
-        if len(crs) > ARGS.max_samples:
+        if len(crs) > OPTIONS.max_samples:
             crs.sort(key=lambda cr: cr['timestamp'])
-            del crs[:-ARGS.max_samples]
+            del crs[:-OPTIONS.max_samples]
         dcache.save_source_data(src_path, arg_hash)
 
     print(F'\nTiming compilation, {len(tuples)} sources eligible')
     try:
         num_done = 0
         for thres, *params in tuples:
-            ARGS.check_deadline()
+            OPTIONS.check_deadline()
             await time_compile_one(*params)
             num_done += 1
             if num_done % 75 == 0:
-                # ignore ARGS.verbose:
+                # ignore OPTIONS.verbose:
                 # - in non-verbose mode, we need to split long lines of dots
                 # - in verbose mode, an extra line won't hurt
                 print(F'\ncompiled {num_done}/{len(tuples)} sources, {c}')
@@ -280,12 +280,12 @@ async def process_commit(c, repo, dcache):
 
 
 def vprint(*args, **kwds):
-    if ARGS.verbose:
+    if OPTIONS.verbose:
         print(*args, **kwds)
 
 
 async def _main():
-    procutil.verbose = ARGS.verbose
+    procutil.verbose = OPTIONS.verbose
 
     tmp = os.path.join(tempfile.gettempdir(), 'build-stats')
     shutil.rmtree(tmp, ignore_errors=True)
@@ -295,15 +295,15 @@ async def _main():
     os.makedirs(cachedir, exist_ok=True)
 
     start = time()
-    repo = MapnikGitRepo(ARGS.source_repository, os.path.join(tmp, 'mapnik'))
-    repo.fetch_branches(ARGS.since, *ARGS.branches)
-    commits = repo.commits_since(ARGS.since, *ARGS.branches)
+    repo = MapnikGitRepo(OPTIONS.source_repository, os.path.join(tmp, 'mapnik'))
+    repo.fetch_branches(OPTIONS.since, *OPTIONS.branches)
+    commits = repo.commits_since(OPTIONS.since, *OPTIONS.branches)
 
     print(F'\nFound {len(commits)} commits')
     if not commits:
         raise SystemExit(0)
 
-    data_repo = GitRepo(None, ARGS.data_dir)
+    data_repo = GitRepo(None, OPTIONS.data_dir)
     dcache = DataCache(cachedir,
                        data_repo=data_repo,
                        #targets=('deps/',))
@@ -312,7 +312,7 @@ async def _main():
     try:
         n_commits = len(commits)
         while commits:
-            ARGS.check_deadline()
+            OPTIONS.check_deadline()
             # Pick a commit randomly, favouring more recent ones.
             i = int(len(commits) * random.random() ** 3)
             #        \              \
@@ -326,8 +326,8 @@ async def _main():
     except DeadlineReached as ex:
         print(F'\nreached deadline {strdatetime(ex.deadline)}')
 
-    msg = (' '.join(ARGS.branches) +
-           F' N={ARGS.max_samples} since={ARGS.since}')
+    msg = (' '.join(OPTIONS.branches) +
+           F' N={OPTIONS.max_samples} since={OPTIONS.since}')
     try:
         env = os.environ
         msg = (F'{env["TRAVIS_EVENT_TYPE"]} job {env["TRAVIS_JOB_NUMBER"]} {msg}\n\n'
@@ -357,7 +357,7 @@ def parse_args(args=None):
 
 
 if __name__ == "__main__":
-    ARGS = parse_args()
+    OPTIONS = parse_args()
     loop = asyncio.get_event_loop()
     try:
         loop.run_until_complete(_main())
