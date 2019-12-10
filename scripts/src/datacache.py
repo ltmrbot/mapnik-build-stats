@@ -66,6 +66,22 @@ class DataCache(object):
     def get_commit_sources(self, commit):
         return commit.sources()
 
+    def iter_commit_sources(self, commit):
+        sources = self.require_commit_sources(commit)
+        if sources:
+            for src_path, smeta in sources.items():
+                try:
+                    arg_hash = smeta['filtered_args_hash']
+                    cpp_hash = smeta['preprocessed_hash']
+                    yield src_path, (arg_hash, cpp_hash)
+                except KeyError:
+                    continue
+
+    def iter_compile_timestamps(self, commit):
+        for src_path, hashes in self.iter_commit_sources(commit):
+            ts = self.require_compile_timestamps(src_path, *hashes)
+            yield src_path, ts
+
     def last_commit_refresh(self, commit):
         assert len(self.targets)
         meta = self.require_commit_metadata(commit)

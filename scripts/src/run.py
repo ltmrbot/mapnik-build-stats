@@ -234,29 +234,30 @@ async def process_commit(c, repo, dcache):
 
     now = time()
     tuples = []
-    sources = dcache.require_commit_sources(c)
-    for src_path, s in sources.items():
-        cpp_hash = s.get('preprocessed_hash')
-        arg_hash = s.get('filtered_args_hash')
-        if cpp_hash is None:
-            continue
-        ts = dcache.require_compile_timestamps(src_path, arg_hash, cpp_hash)
+    for src_path, ts in dcache.iter_compile_timestamps(c):
         thres = next_compile_threshold(11, ts)
         if now < thres:
             continue
-        tuples.append((thres, src_path, arg_hash, cpp_hash))
+        tuples.append((thres, src_path))
     if not tuples:
         return
     tuples.sort() # order by next_compile_threshold
 
-    async def time_compile_one(src_path, arg_hash, cpp_hash):
-        args = shlex.split(c.sources()[src_path]['compiler_args'])
+    async def time_compile_one(src_path, smeta):
+        args = shlex.split(smeta['compiler_args'])
         args += ['-o', src_path + '.o', src_path]
-        cr = await repo.timed_command(*args)
+        return await repo.timed_command(*args)
+
+    def save_compile_result(src_path, smeta, cr):
+        arg_hash = smeta['filtered_args_hash']
+        cpp_hash = smeta['preprocessed_hash']
         sdata = dcache.require_source_data(src_path, arg_hash,
                                            prune_before=days_ago(360))
-        crs = sdata.setdefault(cpp_hash, [])
-        crs.append(cr)
+        try:
+            crs = sdata[cpp_hash]
+            crs.append(cr)
+        except KeyError:
+            crs = sdata[cpp_hash] = [cr]
         if len(crs) > OPTIONS.max_samples:
             crs.sort(key=lambda cr: cr['timestamp'])
             del crs[:-OPTIONS.max_samples]
@@ -264,10 +265,13 @@ async def process_commit(c, repo, dcache):
 
     print(F'\nTiming compilation, {len(tuples)} sources eligible')
     try:
+        sources = dcache.require_commit_sources(c)
         num_done = 0
-        for thres, *params in tuples:
+        for thres, src_path in tuples:
             OPTIONS.check_deadline()
-            await time_compile_one(*params)
+            smeta = sources[src_path]
+            cr = await time_compile_one(src_path, smeta)
+            save_compile_result(src_path, smeta, cr)
             num_done += 1
             if num_done % 75 == 0:
                 # ignore OPTIONS.verbose:
