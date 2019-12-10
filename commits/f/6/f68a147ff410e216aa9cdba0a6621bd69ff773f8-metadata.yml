@@ -1,0 +1,9 @@
+commit_date: 1565260965
+commit_subject: don't log identical error messages
+configure_ok: true
+last_refresh: 1575941514
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

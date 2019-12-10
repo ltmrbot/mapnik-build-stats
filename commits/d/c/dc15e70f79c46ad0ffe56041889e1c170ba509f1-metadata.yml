@@ -1,0 +1,9 @@
+commit_date: 1557825614
+commit_subject: Skip parsing (currently unsupported) <pattern> elements
+configure_ok: true
+last_refresh: 1575941661
+targets:
+- deps/
+- plugins/
+- src/
+- utils/
