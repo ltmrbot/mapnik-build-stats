@@ -1,0 +1,9 @@
+commit_date: 1476690172
+commit_subject: 'Merge pull request #3535 from sebastic/dependencies-typo'
+configure_ok: false
+last_refresh: 1576076209
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

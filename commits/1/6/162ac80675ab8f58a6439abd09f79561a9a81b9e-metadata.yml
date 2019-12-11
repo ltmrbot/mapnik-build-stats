@@ -1,0 +1,9 @@
+commit_date: 1569172380
+commit_subject: 'Merge pull request #4086 from lightmare/install-mapnik-deps-subdir'
+configure_ok: true
+last_refresh: 1576076366
+targets:
+- deps/
+- plugins/
+- src/
+- utils/
