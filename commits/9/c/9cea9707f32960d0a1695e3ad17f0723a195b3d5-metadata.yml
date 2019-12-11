@@ -1,0 +1,9 @@
+commit_date: 1502888384
+commit_subject: 'geobuf.input - poring to `protozero`. (TODO: add support for `GeometryCollection`)'
+configure_ok: true
+last_refresh: 1576069146
+targets:
+- deps/
+- plugins/
+- src/
+- utils/
