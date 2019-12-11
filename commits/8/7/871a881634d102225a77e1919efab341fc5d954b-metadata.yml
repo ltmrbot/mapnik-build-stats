@@ -1,0 +1,9 @@
+commit_date: 1438034358
+commit_subject: 'Merge pull request #3002 from mapnik/issue-2971'
+configure_ok: true
+last_refresh: 1576097799
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

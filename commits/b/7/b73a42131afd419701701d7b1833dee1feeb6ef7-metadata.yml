@@ -1,0 +1,9 @@
+commit_date: 1458839324
+commit_subject: box2<T> - add converting ctor
+configure_ok: false
+last_refresh: 1576095815
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

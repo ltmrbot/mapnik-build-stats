@@ -1,0 +1,9 @@
+commit_date: 1461589126
+commit_subject: 'Don''t compile visitor ref #3380 (thanks @lightmare)'
+configure_ok: false
+last_refresh: 1576097561
+targets:
+- deps/
+- plugins/
+- src/
+- utils/
