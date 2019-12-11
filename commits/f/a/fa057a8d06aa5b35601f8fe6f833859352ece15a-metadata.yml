@@ -1,0 +1,9 @@
+commit_date: 1505059167
+commit_subject: fix spelling in svg parser error
+configure_ok: true
+last_refresh: 1576028956
+targets:
+- deps/
+- plugins/
+- src/
+- utils/
