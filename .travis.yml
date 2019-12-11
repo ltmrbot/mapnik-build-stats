@@ -50,7 +50,7 @@ install:
 script:
   - python3 "scripts/src/run.py"
         --use-mason
-        --deadline "$(date +%s -d '30 minutes')"
+        --deadline "$(date +%s -d '40 minutes')"
         --max-samples 15
         --since "2015-07-04"
         --source-repository "https://github.com/mapnik/mapnik.git"
@@ -60,7 +60,8 @@ before_cache:
   # Keep only up to five most recent cache files.
   # Fewer files will be kept if the data branch clone is not deep enough.
   - |
-    if git -C ./data log -5 --oneline
+    : remove stale files from cache
+    if echo "latest data commits:" && git -C ./data log -7 --oneline
     then
         ls -1 /tmp/build-stats-cache/data_at_*.yml |
             grep -vFf <( git -C ./data log -5 "--format=data_at_%H.yml" ) |
