@@ -1,0 +1,10 @@
+commit_date: 1574066703
+commit_subject: 'Only push new elements to `parenStack` when needed (via @lightmare)
+  (ref #4096)'
+configure_ok: true
+last_refresh: 1576078354
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

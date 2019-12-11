@@ -1,0 +1,9 @@
+commit_date: 1452886881
+commit_subject: 'Merge pull request #3237 from mapnik/geojson-props'
+configure_ok: false
+last_refresh: 1576078139
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

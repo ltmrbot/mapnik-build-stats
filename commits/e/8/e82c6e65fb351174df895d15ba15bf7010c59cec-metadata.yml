@@ -1,0 +1,9 @@
+commit_date: 1573057660
+commit_subject: 'Merge pull request #4096 from mapnik/fix-out-of-bounds-array-access'
+configure_ok: true
+last_refresh: 1576078556
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

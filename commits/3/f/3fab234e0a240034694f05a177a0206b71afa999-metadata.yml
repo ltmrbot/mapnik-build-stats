@@ -1,0 +1,9 @@
+commit_date: 1457360791
+commit_subject: update visual data submodule
+configure_ok: false
+last_refresh: 1576078160
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

@@ -1,0 +1,10 @@
+commit_date: 1445379898
+commit_subject: 'put mapnik-index on PATH to allow testing to work without installing
+  - refs #3137'
+configure_ok: false
+last_refresh: 1576078180
+targets:
+- deps/
+- plugins/
+- src/
+- utils/
