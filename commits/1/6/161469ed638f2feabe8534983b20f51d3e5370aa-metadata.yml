@@ -1,0 +1,10 @@
+commit_date: 1438800437
+commit_subject: Fixed an issue with fields over size of int32 in OGR plugin and added
+  tests to cover this situation.
+configure_ok: true
+last_refresh: 1576169404
+targets:
+- deps/
+- plugins/
+- src/
+- utils/
