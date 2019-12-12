@@ -1,0 +1,32 @@
+20e58a9852fcd8d3fa3cab0ed1246dc48eb3f7d7:
+- {duration: 4.57, memory: 293720, pagefaults: 0, timestamp: 1575850842}
+- {duration: 4.69, memory: 294560, pagefaults: 0, timestamp: 1576073399}
+4898b7f6008f57282c5ed612dacd5dcf1fbe5a98:
+- {duration: 4.65, memory: 294052, pagefaults: 0, timestamp: 1575983120}
+- {duration: 4.47, memory: 294524, pagefaults: 0, timestamp: 1576075773}
+6dae31358f510e2baa15e6a2335903dc475f47b4:
+- {duration: 4.64, memory: 293988, pagefaults: 0, timestamp: 1575568793}
+- {duration: 4.64, memory: 295024, pagefaults: 0, timestamp: 1575763211}
+- {duration: 4.67, memory: 294252, pagefaults: 0, timestamp: 1575880153}
+- {duration: 4.5, memory: 294876, pagefaults: 0, timestamp: 1576076119}
+86647b228b54e94e7e7f6632de806c26583c753e:
+- {duration: 3.84, memory: 294988, pagefaults: 0, timestamp: 1575884655}
+ab4921d62115d7f6ef68ac4ea37ad42254d61bf5:
+- {duration: 4.85, memory: 293800, pagefaults: 0, timestamp: 1575897870}
+af77571ce2a147d599c6549bf1911174c6c78211:
+- {duration: 4.55, memory: 292376, pagefaults: 0, timestamp: 1576166915}
+d37334f0cbd38b687fce8796b9964f62c8345cec:
+- {duration: 4.5, memory: 293816, pagefaults: 0, timestamp: 1576083882}
+d42f3a67d54930953f6bc529a560e56649f6655c:
+- {duration: 3.85, memory: 294576, pagefaults: 0, timestamp: 1575942247}
+- {duration: 5.04, memory: 293272, pagefaults: 0, timestamp: 1576111860}
+d8be1123cbe0cd3f9b5ef93230769eb52e42f178:
+- {duration: 4.57, memory: 291704, pagefaults: 0, timestamp: 1575746668}
+- {duration: 4.65, memory: 291232, pagefaults: 0, timestamp: 1575888322}
+e6b1930a8286f75ce47a6665e68f614b773e4f1c:
+- {duration: 4.66, memory: 293068, pagefaults: 0, timestamp: 1575765979}
+- {duration: 4.47, memory: 292292, pagefaults: 0, timestamp: 1575922131}
+- {duration: 4.71, memory: 293032, pagefaults: 0, timestamp: 1576079782}
+fb86d1013b33174a39f4dc8b9af00977098dc71f:
+- {duration: 3.63, memory: 294592, pagefaults: 0, timestamp: 1575815590}
+- {duration: 4.7, memory: 294516, pagefaults: 0, timestamp: 1576147762}

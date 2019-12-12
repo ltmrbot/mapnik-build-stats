@@ -1,0 +1,9 @@
+commit_date: 1517826464
+commit_subject: 'Merge pull request #3845 from mapycz/fix-vertex-adapter-test'
+configure_ok: true
+last_refresh: 1576166356
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

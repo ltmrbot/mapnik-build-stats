@@ -1,0 +1,9 @@
+commit_date: 1557827410
+commit_subject: Update svg unit tests post 831e353c5dd49f153a9e10c58415ac650fe88c35
+configure_ok: true
+last_refresh: 1576166181
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

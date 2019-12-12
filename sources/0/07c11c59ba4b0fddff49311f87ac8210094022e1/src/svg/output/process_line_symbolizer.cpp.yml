@@ -1,0 +1,33 @@
+0e0e52b72177ceb2b84c8aefd1e52e31aef17e9a:
+- {duration: 3.78, memory: 381260, pagefaults: 0, timestamp: 1575942167}
+- {duration: 5.18, memory: 381864, pagefaults: 0, timestamp: 1576111758}
+29ce564ed26691e893f28887504e3f42b3c9c19c:
+- {duration: 4.54, memory: 379212, pagefaults: 0, timestamp: 1575765880}
+- {duration: 4.35, memory: 379960, pagefaults: 0, timestamp: 1575922062}
+- {duration: 4.71, memory: 379736, pagefaults: 0, timestamp: 1576079708}
+36e0276f2c2c37ab59afec23d388d153f3bf0466:
+- {duration: 4.6, memory: 380692, pagefaults: 0, timestamp: 1575850743}
+- {duration: 4.6, memory: 380436, pagefaults: 0, timestamp: 1576073302}
+38671eb1cc0cd85851accf6ade235793ec48da41:
+- {duration: 4.66, memory: 381088, pagefaults: 0, timestamp: 1575568687}
+- {duration: 4.49, memory: 381804, pagefaults: 0, timestamp: 1575881083}
+- {duration: 4.55, memory: 381048, pagefaults: 0, timestamp: 1576070945}
+39a543cff616222a2391206aadbeaa5b008daa1a:
+- {duration: 3.61, memory: 380588, pagefaults: 0, timestamp: 1575815512}
+- {duration: 4.64, memory: 381092, pagefaults: 0, timestamp: 1576147662}
+5b36e9297ec1f468cb3f24163c058cec9fe1b105:
+- {duration: 4.44, memory: 381236, pagefaults: 0, timestamp: 1576083787}
+6f6d8561dd047e26e76767b1c21a4b37a784ad89:
+- {duration: 3.69, memory: 381852, pagefaults: 0, timestamp: 1575884575}
+918a561b2c30de9602c9563fff557f1be9c9a3ee:
+- {duration: 4.49, memory: 377948, pagefaults: 0, timestamp: 1575746569}
+- {duration: 4.36, memory: 377596, pagefaults: 0, timestamp: 1575888223}
+b0337f0d9b92ca9ec3c449137f77883221e5237c:
+- {duration: 4.59, memory: 381520, pagefaults: 0, timestamp: 1575762692}
+- {duration: 3.66, memory: 381524, pagefaults: 0, timestamp: 1575816273}
+- {duration: 4.61, memory: 381364, pagefaults: 0, timestamp: 1576030498}
+d55ba3e92f54395cf3ff22ae436309b215a82a2a:
+- {duration: 4.44, memory: 379232, pagefaults: 0, timestamp: 1576166842}
+fc8eb5baf151c080d4818d8cedf969a376296f1f:
+- {duration: 4.63, memory: 381148, pagefaults: 0, timestamp: 1575983021}
+- {duration: 4.39, memory: 381160, pagefaults: 0, timestamp: 1576075678}

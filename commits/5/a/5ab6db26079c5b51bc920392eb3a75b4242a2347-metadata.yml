@@ -1,0 +1,9 @@
+commit_date: 1515578650
+commit_subject: benchmark - slightly better stderr
+configure_ok: true
+last_refresh: 1576168387
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

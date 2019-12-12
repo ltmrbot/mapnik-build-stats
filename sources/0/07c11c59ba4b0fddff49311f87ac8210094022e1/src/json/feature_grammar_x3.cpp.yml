@@ -1,0 +1,37 @@
+135f4c576c93eaeb1f5b6e36176f6dc23f80633b:
+- {duration: 8.87, memory: 370116, pagefaults: 1, timestamp: 1575887386}
+- {duration: 9.25, memory: 370064, pagefaults: 0, timestamp: 1576080057}
+28af7cdee07fb1d37138bfdbeb8fc50c71a2d2de:
+- {duration: 8.66, memory: 373708, pagefaults: 0, timestamp: 1576083588}
+38f5d147a05bb2a47144efa2e5d87738eca6f2cb:
+- {duration: 7.49, memory: 374420, pagefaults: 0, timestamp: 1575840586}
+- {duration: 8.98, memory: 374016, pagefaults: 0, timestamp: 1576073132}
+66416b2595671abd4f8768f2360b0c957dc03286:
+- {duration: 9.19, memory: 373884, pagefaults: 0, timestamp: 1575765663}
+- {duration: 9.22, memory: 374020, pagefaults: 0, timestamp: 1576079302}
+73bd2af193d862a31e1ec7ec785363b6973c384b:
+- {duration: 9.06, memory: 373916, pagefaults: 0, timestamp: 1575982808}
+- {duration: 8.83, memory: 374024, pagefaults: 0, timestamp: 1576075470}
+88c4701b1ddff558ad786564de1f67a6e5601a64:
+- {duration: 7.4, memory: 373368, pagefaults: 0, timestamp: 1575826416}
+- {duration: 8.93, memory: 374244, pagefaults: 0, timestamp: 1576097388}
+94681c97798bf9eae607ceecdf9b501f2a15ae2e:
+- {duration: 9.12, memory: 374384, pagefaults: 0, timestamp: 1575762512}
+- {duration: 7.09, memory: 373844, pagefaults: 0, timestamp: 1575816146}
+- {duration: 9.21, memory: 373980, pagefaults: 0, timestamp: 1576030332}
+9ce3e46cd555193541d2b8825faa139531148ac1:
+- {duration: 8.71, memory: 374216, pagefaults: 0, timestamp: 1575921510}
+- {duration: 8.94, memory: 374036, pagefaults: 0, timestamp: 1576166998}
+9dff1fed38880b67fe1ebf19cc801057fc5238c3:
+- {duration: 8.69, memory: 369204, pagefaults: 0, timestamp: 1575746358}
+e527f4eeb419952c35f36b82505f5a55abf287cc:
+- {duration: 7.13, memory: 374600, pagefaults: 0, timestamp: 1575815340}
+- {duration: 8.94, memory: 374044, pagefaults: 0, timestamp: 1576147450}
+f2675f77c307cc35f3d78870f145c60774309ee3:
+- {duration: 9.49, memory: 374120, pagefaults: 0, timestamp: 1575568440}
+- {duration: 9.06, memory: 374124, pagefaults: 0, timestamp: 1575880904}
+- {duration: 9.16, memory: 373900, pagefaults: 0, timestamp: 1576070764}
+f8fc234478f6d84c9157fc5dd8d52cf43ff01379:
+- {duration: 7.18, memory: 374604, pagefaults: 0, timestamp: 1575884418}
+- {duration: 7.57, memory: 373704, pagefaults: 0, timestamp: 1575942386}
+- {duration: 10.06, memory: 373912, pagefaults: 0, timestamp: 1576112105}

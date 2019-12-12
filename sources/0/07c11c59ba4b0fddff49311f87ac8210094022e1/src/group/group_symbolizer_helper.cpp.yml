@@ -1,0 +1,35 @@
+10350a84a1a672b1dcced8b7cbc774771bbebcd9:
+- {duration: 3.63, memory: 295828, pagefaults: 0, timestamp: 1575746306}
+- {duration: 3.77, memory: 296384, pagefaults: 0, timestamp: 1575888004}
+13041c9f0d9beb71a8fe490bfc327788b1b4c02e:
+- {duration: 3.84, memory: 297496, pagefaults: 0, timestamp: 1575765612}
+1a1148010fc091e4f5582967123493eaec14c338:
+- {duration: 3.67, memory: 298748, pagefaults: 0, timestamp: 1576083565}
+2d496f585f112854d39ad04054b740916f6d3d03:
+- {duration: 3.64, memory: 297988, pagefaults: 0, timestamp: 1575921482}
+3586d47cf5a69c1e7e5c0e798eb56aac24d51b3c:
+- {duration: 4.01, memory: 299796, pagefaults: 0, timestamp: 1575568384}
+- {duration: 3.92, memory: 299792, pagefaults: 0, timestamp: 1575880881}
+- {duration: 3.99, memory: 300076, pagefaults: 0, timestamp: 1576070740}
+37c1c1d29a9ed85b765968fddaf5851335413b27:
+- {duration: 3.76, memory: 299816, pagefaults: 0, timestamp: 1575762488}
+- {duration: 3.03, memory: 299956, pagefaults: 0, timestamp: 1575816127}
+- {duration: 3.88, memory: 299708, pagefaults: 0, timestamp: 1576030308}
+3c823f6f20c265fea53f56bd15ee4e10f0c8ce01:
+- {duration: 3.23, memory: 299024, pagefaults: 0, timestamp: 1575826374}
+- {duration: 3.8, memory: 298728, pagefaults: 0, timestamp: 1576072905}
+45590e3dadd1a2510b63453f5b48ecd48ce2c279:
+- {duration: 3.12, memory: 299984, pagefaults: 0, timestamp: 1575942051}
+- {duration: 4.18, memory: 299600, pagefaults: 0, timestamp: 1576111599}
+67e934bca7e3201e629e754dcf664e61b30da456:
+- {duration: 3.86, memory: 297784, pagefaults: 0, timestamp: 1576079023}
+7537776afff42f10b5076af2f873f9b61b0bde1a:
+- {duration: 3.06, memory: 299560, pagefaults: 0, timestamp: 1575884401}
+7aaf55c9d9ad1e43c784d9e5c2173462aa335c39:
+- {duration: 3.77, memory: 297392, pagefaults: 0, timestamp: 1576166731}
+d34c82debd4b7ad3d7d4a174d3305df92f0d9f4c:
+- {duration: 3.1, memory: 299352, pagefaults: 0, timestamp: 1575815298}
+- {duration: 3.81, memory: 299008, pagefaults: 0, timestamp: 1576147434}
+f4eb8fa777c75e0b5c96a8a3eca10e6417d0ea4c:
+- {duration: 3.83, memory: 298368, pagefaults: 0, timestamp: 1575982792}
+- {duration: 3.75, memory: 298808, pagefaults: 0, timestamp: 1576075455}

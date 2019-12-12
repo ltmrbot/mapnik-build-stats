@@ -1,0 +1,30 @@
+0acc80ef854d2dfd2eade400f110715ffc20c37c:
+- {duration: 2.76, memory: 241220, pagefaults: 0, timestamp: 1575815727}
+- {duration: 3.52, memory: 241080, pagefaults: 0, timestamp: 1576147921}
+3d29914048e2f86a6313bf745c40931fa5dc2c25:
+- {duration: 3.54, memory: 240964, pagefaults: 0, timestamp: 1575766153}
+- {duration: 3.48, memory: 240916, pagefaults: 0, timestamp: 1575922209}
+- {duration: 3.67, memory: 241192, pagefaults: 0, timestamp: 1576079859}
+3e61a91f710fc2a65dc364d44759d83337f2c60d:
+- {duration: 3.48, memory: 240988, pagefaults: 0, timestamp: 1576166958}
+59d928c0316e8ce80a22267fe6b90763f23f076b:
+- {duration: 2.89, memory: 241116, pagefaults: 0, timestamp: 1575884762}
+813dc0a4b1afb2914b3984e2a7fd6c4f7085df44:
+- {duration: 3.47, memory: 240800, pagefaults: 0, timestamp: 1576084018}
+8c9972f2060227eb55b670a1b70e8e390d3701bd:
+- {duration: 2.96, memory: 241340, pagefaults: 0, timestamp: 1575942347}
+- {duration: 4.08, memory: 241776, pagefaults: 0, timestamp: 1576111999}
+9f820827d082ad544cea8729e9c616340bbabe8d:
+- {duration: 3.39, memory: 239320, pagefaults: 0, timestamp: 1575746774}
+- {duration: 3.49, memory: 239952, pagefaults: 0, timestamp: 1575888431}
+a76167502e11071d178af96b301c20e709cff080:
+- {duration: 3.72, memory: 243616, pagefaults: 0, timestamp: 1575568988}
+- {duration: 3.65, memory: 243200, pagefaults: 0, timestamp: 1575763296}
+- {duration: 3.69, memory: 243340, pagefaults: 0, timestamp: 1575880239}
+- {duration: 3.52, memory: 242908, pagefaults: 0, timestamp: 1576076195}
+c3af8cfbec236cb66828888cda7dcc40a6896261:
+- {duration: 3.57, memory: 241648, pagefaults: 0, timestamp: 1575983282}
+- {duration: 3.42, memory: 240864, pagefaults: 0, timestamp: 1576075928}
+cf3c4324e0044e5d6e4a06a62e56098c83a0502f:
+- {duration: 3.52, memory: 241592, pagefaults: 0, timestamp: 1575851017}
+- {duration: 3.61, memory: 241900, pagefaults: 0, timestamp: 1576073566}

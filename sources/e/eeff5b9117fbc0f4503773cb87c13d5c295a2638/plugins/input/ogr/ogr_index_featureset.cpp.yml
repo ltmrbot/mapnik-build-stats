@@ -1,0 +1,14 @@
+4325308e01163887d87b8b84cba87c6479c10565:
+- {duration: 4.53, memory: 292608, pagefaults: 0, timestamp: 1575911166}
+- {duration: 4.16, memory: 293056, pagefaults: 0, timestamp: 1576076715}
+74304c79a725379a060fa197fcddfe408b819a9d:
+- {duration: 4.33, memory: 292136, pagefaults: 0, timestamp: 1576029025}
+af3ec32c44a881c2385d971e13f2026a6e066e2e:
+- {duration: 4.48, memory: 292252, pagefaults: 0, timestamp: 1575898141}
+- {duration: 4.23, memory: 292408, pagefaults: 0, timestamp: 1576167187}
+b366b4fec6737b809451d2352b50bdfadcd187a8:
+- {duration: 4.32, memory: 293300, pagefaults: 0, timestamp: 1575912602}
+c28338b9dc81b14ca6396df463a8038ce6983be7:
+- {duration: 4.21, memory: 292648, pagefaults: 0, timestamp: 1576084260}
+df282163d09eb6831f667df30e782a1805973922:
+- {duration: 4.21, memory: 291864, pagefaults: 0, timestamp: 1576117101}

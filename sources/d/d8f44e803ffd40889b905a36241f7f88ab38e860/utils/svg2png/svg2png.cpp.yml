@@ -1,0 +1,33 @@
+180ab51739e119e727c98530b9ac9bf4e847f113:
+- {duration: 4.26, memory: 241256, pagefaults: 0, timestamp: 1575851034}
+- {duration: 4.2, memory: 241464, pagefaults: 0, timestamp: 1576073582}
+22804337d7d271dab7547ab23130a1c076992bfe:
+- {duration: 3.42, memory: 241312, pagefaults: 0, timestamp: 1575884772}
+2a49e6bb61eeeeadaf07f2e6a0c04b5cd9c41e34:
+- {duration: 4.18, memory: 241600, pagefaults: 0, timestamp: 1576084035}
+4acbefe0fac7309096815a672ba0418f45cf2722:
+- {duration: 4.35, memory: 241068, pagefaults: 0, timestamp: 1575983300}
+- {duration: 4.09, memory: 240704, pagefaults: 0, timestamp: 1576075945}
+5ef480a0d0b46c6697a48d865963a0a1d2f06aeb:
+- {duration: 4.07, memory: 239216, pagefaults: 0, timestamp: 1575746791}
+- {duration: 4.21, memory: 239684, pagefaults: 0, timestamp: 1575888449}
+7a685421acc23e1eaa70821d0d397d673136d66e:
+- {duration: 4.11, memory: 240948, pagefaults: 0, timestamp: 1575921791}
+- {duration: 4.19, memory: 240956, pagefaults: 0, timestamp: 1576167091}
+ae517f73b14a899f1675993f6de1575a49464325:
+- {duration: 3.44, memory: 241248, pagefaults: 0, timestamp: 1575815741}
+- {duration: 4.16, memory: 241452, pagefaults: 0, timestamp: 1576147938}
+be75756538fb1fac5f21a366e728eb466ff09339:
+- {duration: 4.27, memory: 240908, pagefaults: 0, timestamp: 1575569006}
+- {duration: 4.18, memory: 241132, pagefaults: 0, timestamp: 1575881242}
+- {duration: 4.26, memory: 241440, pagefaults: 0, timestamp: 1576071107}
+d54c2303fa1c7effca4559ed2b8ebdd52b35fac0:
+- {duration: 3.45, memory: 241296, pagefaults: 0, timestamp: 1575942351}
+- {duration: 4.85, memory: 241440, pagefaults: 0, timestamp: 1576112004}
+ea995638844a2b7c6eb196d106d22fec4071ebb0:
+- {duration: 4.26, memory: 241348, pagefaults: 0, timestamp: 1575762853}
+- {duration: 3.47, memory: 241648, pagefaults: 0, timestamp: 1575816394}
+- {duration: 4.15, memory: 240836, pagefaults: 0, timestamp: 1576075975}
+ebf0b7238c2701410d3be124574a92a48bea08e1:
+- {duration: 4.27, memory: 241004, pagefaults: 0, timestamp: 1575766170}
+- {duration: 4.42, memory: 240860, pagefaults: 0, timestamp: 1576079421}
