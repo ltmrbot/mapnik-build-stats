@@ -1,0 +1,9 @@
+commit_date: 1457643509
+commit_subject: suppress warnings from image_io libs
+configure_ok: false
+last_refresh: 1576179699
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

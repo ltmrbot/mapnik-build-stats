@@ -1,0 +1,9 @@
+commit_date: 1457568974
+commit_subject: share stringify macro from common header
+configure_ok: false
+last_refresh: 1576179678
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

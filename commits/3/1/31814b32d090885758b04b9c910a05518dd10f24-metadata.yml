@@ -1,0 +1,10 @@
+commit_date: 1471254090
+commit_subject: rename `empty_featureset` => `invalid_featureset` to avoid ambiguity
+  + add helper `is_valid` method
+configure_ok: true
+last_refresh: 1576182258
+targets:
+- deps/
+- plugins/
+- src/
+- utils/
