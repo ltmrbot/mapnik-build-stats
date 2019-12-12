@@ -1,0 +1,9 @@
+commit_date: 1525072534
+commit_subject: 'Merge pull request #3891 from mapnik/compiler-detect'
+configure_ok: true
+last_refresh: 1576148962
+targets:
+- deps/
+- plugins/
+- src/
+- utils/
