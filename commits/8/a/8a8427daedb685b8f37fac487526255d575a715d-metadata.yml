@@ -1,0 +1,11 @@
+commit_date: 1474539514
+commit_subject: 'GeoJSON feature/geometry grammars - split `(a | b | ...) % lit('','')`
+  rule to avoid creating bogus temp synthesised attribute e.g `boost::variant<a,b,..>`
+  which causes clang compiler >= 3.9 to segfault. (ref #3507)'
+configure_ok: false
+last_refresh: 1576115574
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

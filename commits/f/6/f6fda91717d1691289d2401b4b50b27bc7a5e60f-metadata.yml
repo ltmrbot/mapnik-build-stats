@@ -1,0 +1,9 @@
+commit_date: 1567327064
+commit_subject: 'scons: define OPTIONAL_LIBSHEADERS before use'
+configure_ok: true
+last_refresh: 1576115402
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

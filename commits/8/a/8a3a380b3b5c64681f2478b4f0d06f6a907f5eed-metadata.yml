@@ -1,0 +1,10 @@
+commit_date: 1484731004
+commit_subject: fix `blank` line test for require `headers.size() == 1` +  reduce
+  stderr verbosity.
+configure_ok: true
+last_refresh: 1576117020
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

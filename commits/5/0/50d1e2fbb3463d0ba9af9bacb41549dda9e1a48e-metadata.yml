@@ -1,0 +1,9 @@
+commit_date: 1449256062
+commit_subject: handle more gcc 4.9 -Wshadow warnings
+configure_ok: false
+last_refresh: 1576115225
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

@@ -1,0 +1,9 @@
+commit_date: 1533626913
+commit_subject: 'Merge pull request #3962 from lightmare/bootstrap-manners'
+configure_ok: true
+last_refresh: 1576115571
+targets:
+- deps/
+- plugins/
+- src/
+- utils/
