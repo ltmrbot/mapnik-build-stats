@@ -1,0 +1,9 @@
+commit_date: 1519657616
+commit_subject: Merge branch 'mapycz-offset-converter-topology'
+configure_ok: true
+last_refresh: 1576110514
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

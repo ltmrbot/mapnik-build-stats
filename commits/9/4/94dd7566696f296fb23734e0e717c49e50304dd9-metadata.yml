@@ -1,0 +1,9 @@
+commit_date: 1574243011
+commit_subject: Fix compiler warning
+configure_ok: true
+last_refresh: 1576110696
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

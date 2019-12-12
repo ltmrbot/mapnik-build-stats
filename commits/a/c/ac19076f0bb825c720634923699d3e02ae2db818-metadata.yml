@@ -1,0 +1,10 @@
+commit_date: 1557834339
+commit_subject: Disable "Linux clang-3.9 + coverage" builds which are failing with
+  "The job exceeded the maximum log length, and has been terminated."
+configure_ok: true
+last_refresh: 1576111050
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

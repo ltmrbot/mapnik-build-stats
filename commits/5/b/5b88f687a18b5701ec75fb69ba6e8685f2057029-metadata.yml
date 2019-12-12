@@ -1,0 +1,9 @@
+commit_date: 1496651361
+commit_subject: Scons - update to 2.5.1
+configure_ok: true
+last_refresh: 1576112399
+targets:
+- deps/
+- plugins/
+- src/
+- utils/
