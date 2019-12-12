@@ -45,6 +45,7 @@ install:
   - git clone --depth=5 --branch='data' "$REPO_URL" ./data
   - git -C ./data config core.sshCommand
         'sshpass -ev -Passphrase ssh -i "$TRAVIS_BUILD_DIR/github.key" -F /dev/null'
+  - ./upgrade-data.sh ./data
   - chmod 0600 ./github.key
 
 script:

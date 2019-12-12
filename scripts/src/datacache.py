@@ -45,7 +45,7 @@ class DataCache(object):
 
     def _source_data_file(self, src_path, arg_hash):
         return os.path.join(self.data_repo.dir, 'sources',
-                            arg_hash[:2], arg_hash, F'{src_path}.yml')
+                            arg_hash[0], arg_hash, F'{src_path}.yml')
 
     def _update_compile_timestamps(self, sdata, src_path, arg_hash):
         d = self._persist_dict('compiles', arg_hash, src_path)
