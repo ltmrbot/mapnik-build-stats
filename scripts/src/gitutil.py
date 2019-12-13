@@ -4,7 +4,7 @@ import shlex
 import yaml
 from asyncutil import async_batch
 from hashlib import sha1 as COMPILER_INPUT_HASHER
-from procutil import check_exit, popen, popen2, strdatetime
+from procutil import check_exit, popen, popen2, strdatetime, strsecsince
 from subprocess import CalledProcessError, DEVNULL, PIPE
 from sys import intern
 from time import time
@@ -269,16 +269,17 @@ class GitRepo(object):
             yield self.preprocess_one(cxx_args, cpp_args)
 
     async def preprocess_sources(self, *targets):
-        count = 0
         aiter = self._aiter_preprocess(*targets)
+        count = 0
+        start = time()
         # preprocessor doesn't require huge amounts of memory,
         # so we can run a couple of those in parallel
         async for sfile, smeta in async_batch(aiter, max_concurrent=2):
             yield sfile, smeta
             count += 1
             if count % 75 == 0:
-                print(F'\npreprocessed {count} sources')
+                print(F"\n({strsecsince(start)}) preprocessed {count} sources")
         if count % 75 != 0:
-            print(F'\npreprocessed {count} sources')
+            print(F"\n({strsecsince(start)}) preprocessed {count} sources")
 
 #endclass

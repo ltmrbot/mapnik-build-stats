@@ -53,6 +53,11 @@ def strdatetime(ts):
     return strftime("%Y-%m-%d %H:%M:%S", gmtime(ts))
 
 
+def strsecsince(ts, *, width=0, prec=0):
+    diff = time() - ts
+    return F"{diff:+{width}.{prec}f}s"
+
+
 async def async_popen(program, *args, highlight=[0],
                       stdin=None, stdout=None, stderr=None,
                       stdout_filter=None,

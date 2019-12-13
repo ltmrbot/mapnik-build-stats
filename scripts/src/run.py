@@ -13,7 +13,7 @@ from time import time
 import procutil
 from datacache import DataCache
 from gitutil import GitRepo
-from procutil import check_exit, popen, days_ago, strdatetime
+from procutil import check_exit, popen, days_ago, strdatetime, strsecsince
 
 
 REFRESH_THRESHOLD = days_ago(randint(14, 28))
@@ -265,6 +265,7 @@ async def process_commit(c, repo, dcache):
 
     print(F'\nTiming compilation, {len(tuples)} sources eligible')
     try:
+        start = time()
         sources = dcache.require_commit_sources(c)
         num_done = 0
         for thres, src_path in tuples:
@@ -277,10 +278,12 @@ async def process_commit(c, repo, dcache):
                 # ignore OPTIONS.verbose:
                 # - in non-verbose mode, we need to split long lines of dots
                 # - in verbose mode, an extra line won't hurt
-                print(F'\ncompiled {num_done}/{len(tuples)} sources, {c}')
+                print(F"\n({strsecsince(start)})"
+                      F" compiled {num_done}/{len(tuples)} sources, {c}")
     finally:
         if num_done % 75 != 0:
-            print(F'\ncompiled {num_done}/{len(tuples)} sources, {c}')
+            print(F"\n({strsecsince(start)})"
+                  F" compiled {num_done}/{len(tuples)} sources, {c}")
 
 
 def vprint(*args, **kwds):
