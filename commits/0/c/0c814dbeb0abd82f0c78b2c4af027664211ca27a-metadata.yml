@@ -1,0 +1,9 @@
+commit_date: 1502888384
+commit_subject: remove stderr + cleanup + update copyright
+configure_ok: true
+last_refresh: 1576262338
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

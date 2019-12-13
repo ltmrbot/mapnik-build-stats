@@ -1,0 +1,9 @@
+commit_date: 1478683200
+commit_subject: Remove `Circle` badge it appears to be broken
+configure_ok: false
+last_refresh: 1576262192
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

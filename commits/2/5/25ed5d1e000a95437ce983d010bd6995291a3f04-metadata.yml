@@ -1,0 +1,10 @@
+commit_date: 1446468378
+commit_subject: 'json error_handler : optional MAPNIK_LOG_ERROR + don''t throw + return
+  qi::fail'
+configure_ok: false
+last_refresh: 1576264333
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

@@ -1,0 +1,9 @@
+commit_date: 1518536950
+commit_subject: 'Merge pull request #3855 from mapycz/grid_vertex_converter-fix-empty-polygon'
+configure_ok: true
+last_refresh: 1576264470
+targets:
+- deps/
+- plugins/
+- src/
+- utils/
