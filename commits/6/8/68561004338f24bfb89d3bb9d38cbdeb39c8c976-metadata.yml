@@ -1,0 +1,9 @@
+commit_date: 1457355110
+commit_subject: box2d operator<<  - output "box2d(INVALID)" for invalid box.
+configure_ok: false
+last_refresh: 1576246998
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

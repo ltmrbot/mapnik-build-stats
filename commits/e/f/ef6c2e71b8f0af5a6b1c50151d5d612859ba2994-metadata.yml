@@ -1,0 +1,10 @@
+commit_date: 1498722076
+commit_subject: 'svg-parser : handle parsing failures via `error_handler` ( throw
+  in strict mode and log+continue when strict==false)'
+configure_ok: true
+last_refresh: 1576248788
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

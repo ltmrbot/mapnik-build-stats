@@ -1,0 +1,9 @@
+commit_date: 1565517464
+commit_subject: 'Merge pull request #3942 from lightmare/postgis-float-tokens'
+configure_ok: true
+last_refresh: 1576247133
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

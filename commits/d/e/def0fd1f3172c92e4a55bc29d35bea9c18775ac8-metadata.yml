@@ -1,0 +1,10 @@
+commit_date: 1523885139
+commit_subject: prepare for breaking change in spirit::x3 (from boost 1.67.0) - remove
+  `with_context` usage (ref https://github.com/boostorg/spirit/pull/239)
+configure_ok: true
+last_refresh: 1576247967
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

@@ -1,0 +1,9 @@
+commit_date: 1523869688
+commit_subject: supress unused variable warning in boost state_machine
+configure_ok: true
+last_refresh: 1576246430
+targets:
+- deps/
+- plugins/
+- src/
+- utils/
