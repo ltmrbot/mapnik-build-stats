@@ -1,0 +1,10 @@
+commit_date: 1468485997
+commit_subject: feature_kv_iterator - change logic in 'increment' to skip key/value's
+  when value doesn't exist
+configure_ok: true
+last_refresh: 1576252011
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

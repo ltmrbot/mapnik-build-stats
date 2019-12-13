@@ -1,0 +1,9 @@
+commit_date: 1516721709
+commit_subject: 'Merge pull request #3838 from mapycz/fix-crash-polygon_vertex_adapter'
+configure_ok: true
+last_refresh: 1576253410
+targets:
+- deps/
+- plugins/
+- src/
+- utils/
