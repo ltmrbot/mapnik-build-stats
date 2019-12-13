@@ -53,7 +53,7 @@ class CommitInfo(object):
         self._sources = None
 
     def __str__(self):
-        return F'commit {self.sha1} {strdatetime(self.cdate)} "{self.subject}"'
+        return F'commit {self.sha1:.7} {strdatetime(self.cdate)} "{self.subject}"'
 
     def _data_dir(self, data_root):
         return os.path.join(data_root, 'commits', self.sha1[0], self.sha1[1])
