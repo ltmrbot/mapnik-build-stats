@@ -1,0 +1,9 @@
+commit_date: 1518685483
+commit_subject: update visual tests data
+configure_ok: true
+last_refresh: 1576243824
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

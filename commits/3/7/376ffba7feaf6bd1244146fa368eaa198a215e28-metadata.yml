@@ -1,0 +1,10 @@
+commit_date: 1454499309
+commit_subject: convert value_bool to value_integer before operator / (fixes unsafe
+  use of bool - MSVC C4804)
+configure_ok: false
+last_refresh: 1576244334
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

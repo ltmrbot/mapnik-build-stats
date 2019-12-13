@@ -16,5 +16,7 @@ a3ae17d8bb5b6b2f1831770fbb160f3c37537f2c:
 - {duration: 4.93, memory: 366880, pagefaults: 0, timestamp: 1576074004}
 a48177be95d84bf6421f52d430cc3f6c4a91496c:
 - {duration: 4.44, memory: 325444, pagefaults: 0, timestamp: 1576029048}
+c8c15571b4dd669fe00b68f8656fab49cfa0c81e:
+- {duration: 2.95, failed: 1, memory: 302544, pagefaults: 0, timestamp: 1576245855}
 f7c56f1a6dfc39a39d8a6321d0a09cd9bc239f92:
 - {duration: 4.82, memory: 328120, pagefaults: 0, timestamp: 1575912636}

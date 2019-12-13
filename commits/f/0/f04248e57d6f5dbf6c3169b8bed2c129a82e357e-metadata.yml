@@ -1,0 +1,9 @@
+commit_date: 1523348860
+commit_subject: Merge branch 'mapycz-save-map-denominator'
+configure_ok: true
+last_refresh: 1576244468
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

@@ -1,0 +1,9 @@
+commit_date: 1486590411
+commit_subject: remove bogus `throw()` specifier from 'add_attribute'
+configure_ok: true
+last_refresh: 1576245763
+targets:
+- deps/
+- plugins/
+- src/
+- utils/
