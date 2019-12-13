@@ -1,0 +1,9 @@
+commit_date: 1539160205
+commit_subject: add "clipPath" to unsupported elements
+configure_ok: true
+last_refresh: 1576269123
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

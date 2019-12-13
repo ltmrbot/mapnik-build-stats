@@ -1,0 +1,9 @@
+commit_date: 1457655954
+commit_subject: pin mason to avoid breakage from upcoming improvements - refs mapbox/mason#131
+configure_ok: false
+last_refresh: 1576267428
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

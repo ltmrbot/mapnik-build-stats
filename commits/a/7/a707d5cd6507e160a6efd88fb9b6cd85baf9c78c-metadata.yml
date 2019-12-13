@@ -1,0 +1,9 @@
+commit_date: 1453396457
+commit_subject: test svg - refactor common code into separate *.hpp
+configure_ok: false
+last_refresh: 1576267853
+targets:
+- deps/
+- plugins/
+- src/
+- utils/
