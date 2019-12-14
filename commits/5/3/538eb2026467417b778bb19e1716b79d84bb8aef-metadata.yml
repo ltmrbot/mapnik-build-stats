@@ -1,0 +1,9 @@
+commit_date: 1576256861
+commit_subject: 'Merge pull request #4103 from mapnik/boost_1_72'
+configure_ok: true
+last_refresh: 1576328782
+targets:
+- deps/
+- plugins/
+- src/
+- utils/

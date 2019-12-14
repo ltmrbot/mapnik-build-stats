@@ -1,0 +1,9 @@
+commit_date: 1443095271
+commit_subject: 'Merge pull request #3083 from mapnik/enable-appveyor'
+configure_ok: true
+last_refresh: 1576326877
+targets:
+- deps/
+- plugins/
+- src/
+- utils/
